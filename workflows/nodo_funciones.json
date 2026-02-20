@@ -1,0 +1,111 @@
+{
+  "updatedAt": "2026-02-07T16:46:40.194Z",
+  "createdAt": "2026-02-07T16:22:38.566Z",
+  "id": "ZePBawJN4tbrlpHoQ217L",
+  "name": "nodo funciones",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "c5a33ca2-b303-4954-9fe4-ad3ec8f8d631",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://www.techradar.com/rss",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "97418382-5085-43ce-be42-c75a02208b8f",
+      "name": "RSS Read"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => {\n\n  let image = null;\n\n  // 1. Intentar extraer desde content:encoded\n  const encoded = item.json[\"content:encoded\"];\n\n  if (encoded) {\n    const match = encoded.match(/<img[^>]+src=\"([^\">]+)\"/i);\n    if (match && match[1]) {\n      image = match[1];\n    }\n  }\n\n  // 2. Fallback a enclosure.url\n  if (!image && item.json.enclosure && item.json.enclosure.url) {\n    image = item.json.enclosure.url;\n  }\n\n  // 3. Añadir propiedad image\n  item.json.image = image;\n\n  return item;\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        368,
+        -144
+      ],
+      "id": "3f5b86dd-33ce-4c1c-8ac5-57fdc176579d",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => {\n\n  const title = item.json.title;\n\n  if (\n    title &&\n    title.includes(\"Apple\") &&\n    !title.startsWith(\"UDIA \")\n  ) {\n    item.json.title = \"UDIA \" + title;\n  }\n\n  return item;\n});\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        400,
+        112
+      ],
+      "id": "d741959d-ff54-43e7-b900-c471e5c8dfaa",
+      "name": "Code in JavaScript1"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "RSS Read",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "4bc017fe-1c5f-4f5c-a6e8-0ccd752b2835",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-02-07T16:22:38.570Z",
+      "createdAt": "2026-02-07T16:22:38.570Z",
+      "role": "workflow:owner",
+      "workflowId": "ZePBawJN4tbrlpHoQ217L",
+      "projectId": "MmvYKa71ccIMyArc"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
