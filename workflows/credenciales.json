@@ -1,0 +1,120 @@
+{
+  "updatedAt": "2026-02-02T18:51:13.428Z",
+  "createdAt": "2026-02-02T18:42:18.165Z",
+  "id": "p68B0sovttW059MTtQQEh",
+  "name": "credenciales",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "13d714ce-ae27-4c47-9618-d81caf5ea9bd",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "resource": "base",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        208,
+        -128
+      ],
+      "id": "b2a2f8f0-c136-4073-8038-4bca107d2de5",
+      "name": "Get many bases",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "ZOTmGkbkGwTgXI7j",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini-2024-07-18",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI-2024-07-18"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "Hola saluda a CR7"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        176,
+        80
+      ],
+      "id": "141bf6b4-e744-4a24-8856-508d3b136595",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "N2JeEF92nbocT2XP",
+          "name": "OpenAi account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get many bases",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many bases": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "e4b3f177-5683-46a8-a072-6756104b225e",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-02-02T18:42:18.168Z",
+      "createdAt": "2026-02-02T18:42:18.168Z",
+      "role": "workflow:owner",
+      "workflowId": "p68B0sovttW059MTtQQEh",
+      "projectId": "MmvYKa71ccIMyArc"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
