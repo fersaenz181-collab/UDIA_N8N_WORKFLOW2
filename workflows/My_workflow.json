@@ -1,0 +1,169 @@
+{
+  "updatedAt": "2026-02-02T10:06:32.554Z",
+  "createdAt": "2026-02-02T08:57:20.301Z",
+  "id": "CpzHjaY4JaBgrlyolKS1n",
+  "name": "My workflow",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -192,
+        -64
+      ],
+      "id": "9882ec0b-10c0-4c36-b8d8-1a3841a91286",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "655827e8-ad47-4c89-947f-92ef6888134a",
+              "name": "=url",
+              "value": "https://exercisedb.p.rapidapi.com",
+              "type": "string"
+            },
+            {
+              "id": "19c43b4a-fbbf-4610-95fd-4eca3fa26bff",
+              "name": "=limit ",
+              "value": "2",
+              "type": "string"
+            },
+            {
+              "id": "1868a473-5591-45c0-9fea-ff5bbfc998fe",
+              "name": "=apikey",
+              "value": "6ed66002bemshac30dd4c1ab6056p178209jsn7e81f558563a",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        16,
+        -64
+      ],
+      "id": "ad8cd8a0-ec2a-435a-ac10-97fe4f67a395",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}/exercises ",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "limit",
+              "value": "={{ $json['limit '] }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-rapidapi-host",
+              "value": "exercisedb.p.rapidapi.com"
+            },
+            {
+              "name": "x-rapidapi-key",
+              "value": "={{ $json.apikey }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        256,
+        -176
+      ],
+      "id": "725feaa5-1528-40b5-83df-c7ff3e07817a",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}/exercises/targetList ",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-rapidapi-host",
+              "value": "exercisedb.p.rapidapi.com"
+            },
+            {
+              "name": "x-rapidapi-key",
+              "value": "={{ $json.apikey }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        272,
+        112
+      ],
+      "id": "42ec2954-5c03-42e3-a8ee-9022cd2f2fc3",
+      "name": "HTTP Request1"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "9d3a2fca-5827-4b00-876a-0972c78151b3",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-02-02T08:57:20.304Z",
+      "createdAt": "2026-02-02T08:57:20.304Z",
+      "role": "workflow:owner",
+      "workflowId": "CpzHjaY4JaBgrlyolKS1n",
+      "projectId": "MmvYKa71ccIMyArc"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
