@@ -1,0 +1,133 @@
+{
+  "updatedAt": "2026-02-09T10:13:17.271Z",
+  "createdAt": "2026-02-07T16:53:05.823Z",
+  "id": "OmaFfx1O_Kdu4TiC2CJdF",
+  "name": "control de errores",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "4a1b4d91-e94f-4e36-b5b2-b00c7cda3966",
+      "name": "When chat message received",
+      "webhookId": "600d8a4f-bec4-4843-8ca3-a283921b69de"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "c580fab5-5cc1-4554-b87a-5870f12ebdd4",
+              "leftValue": "={{ $json.chatInput }}",
+              "rightValue": "hola",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        208,
+        0
+      ],
+      "id": "813ede94-2c1a-4cf4-90b5-37bc8b312c27",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        416,
+        -96
+      ],
+      "id": "1909367c-5ab2-4c88-b9c1-a7b87e9d17cc",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "errorMessage": "Ha ocurrido un error. Te enviamos un telegram"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        416,
+        96
+      ],
+      "id": "3d2ca117-5c10-45ab-8532-e75a5e9d67d3",
+      "name": "Stop and Error"
+    }
+  ],
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "81e344a1-e12b-4701-bb7b-a1ce8b1f240d",
+  "activeVersionId": null,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2026-02-07T16:53:05.826Z",
+      "createdAt": "2026-02-07T16:53:05.826Z",
+      "role": "workflow:owner",
+      "workflowId": "OmaFfx1O_Kdu4TiC2CJdF",
+      "projectId": "MmvYKa71ccIMyArc"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
