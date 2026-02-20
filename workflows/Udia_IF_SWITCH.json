@@ -1,0 +1,264 @@
+{
+  "updatedAt": "2026-02-02T18:30:22.550Z",
+  "createdAt": "2026-02-02T18:14:52.358Z",
+  "id": "5xTyRQoIMs_DlJX-ZhanC",
+  "name": "Udia IF SWITCH",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -192,
+        16
+      ],
+      "id": "4c034539-0e95-401e-8b4b-d50354c3e007",
+      "name": "When chat message received",
+      "webhookId": "5b5bc45b-6f4e-45d5-9652-f44177621245"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "9af7f4f9-59da-464e-876c-0377b6f5b21b",
+              "leftValue": "={{ $json.chatInput }}",
+              "rightValue": "Ad",
+              "operator": {
+                "type": "string",
+                "operation": "startsWith"
+              }
+            },
+            {
+              "id": "03eef168-75c3-409f-8beb-79f340ba65d1",
+              "leftValue": "={{ $json.chatInput }}",
+              "rightValue": "Ho",
+              "operator": {
+                "type": "string",
+                "operation": "startsWith"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        32,
+        -80
+      ],
+      "id": "ccca722b-663b-416e-a955-dc0078f5d30a",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.chatInput }}",
+                    "rightValue": "Hola",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "27fd4ca1-75e4-4cc1-891e-2c130d716e1d"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Saludo"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "2fe117c1-964a-4397-b504-cee77c96bb83",
+                    "leftValue": "={{ $json.chatInput }}",
+                    "rightValue": "Adios",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Despedida"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        32,
+        144
+      ],
+      "id": "c3b4a7fd-d555-4888-8df8-c001b8eb86ae",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "chatId": "1437217337",
+        "text": "¡Hola como estás!",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        304,
+        48
+      ],
+      "id": "0813211c-2592-4013-83fe-ccd5781b944c",
+      "name": "Send a text message",
+      "webhookId": "c077d6d0-650c-4806-baac-3da0a75bde55",
+      "credentials": {
+        "telegramApi": {
+          "id": "1nzQW7gGvoGma654",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "1437217337",
+        "text": "¡Hasta luego!",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        304,
+        160
+      ],
+      "id": "fae4f729-3e53-4023-8b9d-7dcf10474488",
+      "name": "Send a text message1",
+      "webhookId": "c077d6d0-650c-4806-baac-3da0a75bde55",
+      "credentials": {
+        "telegramApi": {
+          "id": "1nzQW7gGvoGma654",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "1437217337",
+        "text": "No se que me quieres decir",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        288,
+        320
+      ],
+      "id": "84e2ceff-aeae-4aa1-8e91-5e917c9327ad",
+      "name": "Send a text message2",
+      "webhookId": "c077d6d0-650c-4806-baac-3da0a75bde55",
+      "credentials": {
+        "telegramApi": {
+          "id": "1nzQW7gGvoGma654",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "b6b01798-8f04-431f-93ca-3c490727cf01",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-02-02T18:14:52.361Z",
+      "createdAt": "2026-02-02T18:14:52.361Z",
+      "role": "workflow:owner",
+      "workflowId": "5xTyRQoIMs_DlJX-ZhanC",
+      "projectId": "MmvYKa71ccIMyArc"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
