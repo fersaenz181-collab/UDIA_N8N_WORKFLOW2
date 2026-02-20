@@ -1,0 +1,81 @@
+{
+  "updatedAt": "2026-02-09T10:12:40.732Z",
+  "createdAt": "2026-02-07T16:56:19.362Z",
+  "id": "ZvYNMPxTuNMwR8bpUUu1G",
+  "name": "error trigger",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "chatId": "1437217337",
+        "text": "=Error: {{ $json.execution.error.message }}\nUltimo nodo ejecutado:{{ $json.execution.lastNodeExecuted }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "7ddd9e69-f265-41c5-9d2c-4e8ee9509653",
+      "name": "Send a text message",
+      "webhookId": "526e5f05-04f9-44f3-987f-e40d768191f0",
+      "credentials": {
+        "telegramApi": {
+          "id": "1nzQW7gGvoGma654",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "24ca8a25-6dc2-4e76-9d14-15c303df411c",
+      "name": "Error Trigger"
+    }
+  ],
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "d7d872c8-f437-4299-82be-afb4bd332e0b",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-02-07T16:56:19.364Z",
+      "createdAt": "2026-02-07T16:56:19.364Z",
+      "role": "workflow:owner",
+      "workflowId": "ZvYNMPxTuNMwR8bpUUu1G",
+      "projectId": "MmvYKa71ccIMyArc"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
