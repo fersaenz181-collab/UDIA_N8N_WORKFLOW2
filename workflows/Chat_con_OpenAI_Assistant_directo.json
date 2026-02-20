@@ -1,0 +1,164 @@
+{
+  "updatedAt": "2026-02-20T15:29:51.901Z",
+  "createdAt": "2026-02-12T10:40:28.971Z",
+  "id": "TJ_O_59cgt5DhM6lR9yWE",
+  "name": "Chat con OpenAI Assistant directo",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "746ad65d-8c37-45e8-bef7-2ace031293d0",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "ecc8bb52-b870-4ae2-93c9-d337687bb574"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/threads/runs",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer TU_API_KEY"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "OpenAI-Beta",
+              "value": "assistants=v2"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "id": "d7528aa7-09c4-445f-a6f8-161a5b348915",
+      "name": "Create Run",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        240,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 2,
+        "unit": "seconds"
+      },
+      "id": "784461b7-551a-43e3-a476-6fcb2d4512c1",
+      "name": "Wait 2 seconds",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        512,
+        0
+      ],
+      "webhookId": "bae8d031-94f9-4d01-8745-980f587a3577"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.openai.com/v1/threads/{{$node[\"Create Run\"].json[\"thread_id\"]}}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer TU_API_KEY"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "OpenAI-Beta",
+              "value": "assistants=v2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b12be210-a968-40a8-9497-7f5cc0f1e435",
+      "name": "Get Messages",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        704,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Create Run",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Run": {
+      "main": [
+        [
+          {
+            "node": "Wait 2 seconds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 2 seconds": {
+      "main": [
+        [
+          {
+            "node": "Get Messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "138f641e-9e25-43ad-b49b-e60e26f28c22",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-02-12T10:40:28.974Z",
+      "createdAt": "2026-02-12T10:40:28.974Z",
+      "role": "workflow:owner",
+      "workflowId": "TJ_O_59cgt5DhM6lR9yWE",
+      "projectId": "MmvYKa71ccIMyArc"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
