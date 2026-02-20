@@ -1,0 +1,93 @@
+{
+  "updatedAt": "2026-02-02T18:23:37.975Z",
+  "createdAt": "2026-02-02T10:40:58.370Z",
+  "id": "D5T9sxdNvhbhZ6sDXxT1W",
+  "name": "bot de telegram de errores",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "06976892-5141-43dc-b134-9351f34a3a03",
+      "name": "Telegram Trigger",
+      "webhookId": "1775d9b9-c042-43a9-ba9b-33d7c050518c",
+      "credentials": {
+        "telegramApi": {
+          "id": "1nzQW7gGvoGma654",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.message.chat.id }}",
+        "text": "=Eco: {{ $json.message.text }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "7db5e236-c7b5-4768-a9a4-37deadb1776a",
+      "name": "Send a text message",
+      "webhookId": "6286f68c-7d88-4037-ac4b-eb255fa63b7c",
+      "credentials": {
+        "telegramApi": {
+          "id": "1nzQW7gGvoGma654",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "f5d887f2-abae-4f20-b69d-2e986eca2f19",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-02-02T10:40:58.372Z",
+      "createdAt": "2026-02-02T10:40:58.372Z",
+      "role": "workflow:owner",
+      "workflowId": "D5T9sxdNvhbhZ6sDXxT1W",
+      "projectId": "MmvYKa71ccIMyArc"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
