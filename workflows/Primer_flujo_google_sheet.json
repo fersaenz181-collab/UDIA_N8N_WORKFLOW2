@@ -1,0 +1,149 @@
+{
+  "updatedAt": "2026-01-31T18:05:01.145Z",
+  "createdAt": "2026-01-29T13:14:53.529Z",
+  "id": "Mx0GGfft-t9AYcnAQwoor",
+  "name": "Primer flujo google sheet",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Newsletter Udia n8n",
+        "formDescription": "Las ultimas noticias de n8n en tu email\n",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Nombre",
+              "placeholder": "Aqui tu nombre",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Email",
+              "fieldType": "email",
+              "placeholder": "Tu email",
+              "requiredField": true
+            },
+            {
+              "fieldType": "html",
+              "html": "<form>\n  <label>\n    <input type=\"checkbox\" name=\"politica_privacidad\" required>\n    He leído y acepto la\n    <a href=\"politica-privacidad.html\" target=\"_blank\">\n      política de privacidad\n    </a>\n  </label>\n\n  <br><br>\n\n  <button type=\"submit\">Enviar</button>\n</form>\n\n\n\n"
+            }
+          ]
+        },
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        0,
+        0
+      ],
+      "id": "f68487dd-4f22-49cf-a655-37abd69409ae",
+      "name": "On form submission",
+      "webhookId": "0d7f2b4c-4cec-4736-b63b-9963022019af"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1uU2Tx_I-vecJqqpCQ68TqO8JhktAC5E2cOk4jxtcHyU/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uU2Tx_I-vecJqqpCQ68TqO8JhktAC5E2cOk4jxtcHyU/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email": "={{ $json.Email }}",
+            "Nombre": "={{ $json.Nombre }}"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Nombre",
+              "displayName": "Nombre",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        160,
+        -16
+      ],
+      "id": "1097565d-5267-4828-b7f1-cdaf61f4e7e8",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "S2zPEPw9OWy7C5Gg",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "d7b7d80a-4ff8-41d8-a7cc-7655334802a2",
+  "activeVersionId": null,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2026-01-29T13:14:53.532Z",
+      "createdAt": "2026-01-29T13:14:53.532Z",
+      "role": "workflow:owner",
+      "workflowId": "Mx0GGfft-t9AYcnAQwoor",
+      "projectId": "MmvYKa71ccIMyArc"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
