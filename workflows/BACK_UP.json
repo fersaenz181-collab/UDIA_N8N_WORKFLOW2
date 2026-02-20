@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-20T15:24:22.357Z",
+  "updatedAt": "2026-02-20T15:24:38.003Z",
   "createdAt": "2026-02-19T10:05:37.111Z",
   "id": "04dKSMyiS0H6BzJ-wj4bu",
   "name": "BACK UP",
@@ -579,6 +579,17 @@
           }
         ]
       ]
+    },
+    "Edit a file": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -590,7 +601,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "cd76d60d-87b7-4fdb-9168-afefc96d05af",
+  "versionId": "a269a5eb-eecd-4bdd-a592-a481b10c5622",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
