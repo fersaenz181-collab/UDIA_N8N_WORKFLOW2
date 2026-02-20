@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-20T14:36:23.933Z",
+  "updatedAt": "2026-02-20T15:24:22.357Z",
   "createdAt": "2026-02-19T10:05:37.111Z",
   "id": "04dKSMyiS0H6BzJ-wj4bu",
   "name": "BACK UP",
@@ -130,7 +130,7 @@
           "mode": "name",
           "value": "={{ $('Edit Fields').item.json.repo.name }}"
         },
-        "filePath": "={{ $('Edit Fields').item.json.repo.path }}{{ $json.name }}",
+        "filePath": "={{ `workflows/${$json.name.replace(/\\s+/g, \"_\").replace(/[^\\w\\-]/g, \"\")}.json` }}",
         "asBinaryProperty": false,
         "additionalParameters": {}
       },
@@ -153,13 +153,13 @@
     },
     {
       "parameters": {
-        "jsCode": "// 🔹 Datos del workflow (vienen del Loop / Get many workflows)\nconst workflow = $('Loop Over Items').item.json;\n\n// 🔹 Config repo (puedes moverlo a Edit Fields si quieres)\nconst repo_owner = \"fersaenz181-collab\";\nconst repo_name = \"UDIA_N8N_WORKFLOW2\";\n// 🔹 Limpiar nombre del workflow\nconst safeName = workflow.name\n  .replace(/\\s+/g, \"_\")      // espacios → _\n  .replace(/[^\\w\\-]/g, \"\");  // eliminar caracteres raros\n\nconst repo_path = `workflows/${safeName}.json`;\n;\n\n// 🔹 Convertir workflow a string\nconst workflowString = JSON.stringify(workflow, null, 2);\n\n// 🔹 Convertir a base64 (GitHub lo exige)\nconst contentBase64 = Buffer\n  .from(workflowString)\n  .toString(\"base64\");\n\n// 🔹 Preparar objeto base\nconst baseData = {\n  repo_owner,\n  repo_name,\n  repo_path,\n  content: contentBase64,\n  commit_message: `Backup workflow ${workflow.name}`\n};\n\n// ======================================================\n// 🔹 CASO 1: GitHub devolvió error → NO existe\n// ======================================================\nif ($json.error) {\n  return [\n    {\n      json: {\n        ...baseData,\n        estado: \"nuevo\",\n        sha: null\n      }\n    }\n  ];\n}\n\n// ======================================================\n// 🔹 CASO 2: Existe → comparar SHA\n// ======================================================\nconst github_sha = $json.sha;\n\n// GitHub calcula SHA como:\n// sha1(\"blob \" + tamaño + \"\\0\" + contenido)\nconst crypto = require(\"crypto\");\n\nconst blob = `blob ${Buffer.from(workflowString).length}\\0${workflowString}`;\nconst local_sha = crypto\n  .createHash(\"sha1\")\n  .update(blob)\n  .digest(\"hex\");\n\nif (github_sha === local_sha) {\n  return [\n    {\n      json: {\n        ...baseData,\n        estado: \"igual\",\n        sha: github_sha\n      }\n    }\n  ];\n}\n\n// ======================================================\n// 🔹 CASO 3: Existe pero cambió\n// ======================================================\nreturn [\n  {\n    json: {\n      ...baseData,\n      estado: \"diferente\",\n      sha: github_sha\n    }\n  }\n];\n\n"
+        "jsCode": "// 🔹 Datos del workflow (vienen del Loop / Get many workflows)\nconst workflow = $('Loop Over Items').item.json;\n\n// 🔹 Config repo\nconst repo_owner = \"fersaenz181-collab\";\nconst repo_name = \"UDIA_N8N_WORKFLOW2\";\n\n// 🔹 Limpiar nombre del workflow\nconst safeName = workflow.name\n  .replace(/\\s+/g, \"_\")\n  .replace(/[^\\w\\-]/g, \"\");\n\nconst repo_path = `workflows/${safeName}.json`;\n\n// 🔹 Convertir workflow a string\nconst workflowString = JSON.stringify(workflow, null, 2);\n\n// 🔹 Convertir a base64 (GitHub lo exige)\nconst contentBase64 = Buffer\n  .from(workflowString)\n  .toString(\"base64\");\n\n// 🔹 Preparar objeto base\nconst baseData = {\n  repo_owner,\n  repo_name,\n  repo_path,\n  content: contentBase64,\n  commit_message: `Backup workflow ${workflow.name}`\n};\n\n// ======================================================\n// 🔹 Leer resultado del nodo \"Get a file\"\n// ======================================================\nlet githubFile;\n\ntry {\n  githubFile = $('Get a file').item.json;\n} catch (e) {\n  githubFile = null;\n}\n\n// ======================================================\n// 🔹 CASO 1: No existe en GitHub\n// ======================================================\nif (!githubFile || !githubFile.sha) {\n  return [{\n    json: {\n      ...baseData,\n      estado: \"nuevo\",\n      sha: null\n    }\n  }];\n}\n\n// ======================================================\n// 🔹 CASO 2: Existe → comparar contenido\n// ======================================================\nconst githubContent = githubFile.content\n  ? githubFile.content.replace(/\\n/g, \"\")\n  : null;\n\nif (githubContent === contentBase64) {\n  return [{\n    json: {\n      ...baseData,\n      estado: \"igual\",\n      sha: githubFile.sha\n    }\n  }];\n}\n\n// ======================================================\n// 🔹 CASO 3: Existe pero cambió\n// ======================================================\nreturn [{\n  json: {\n    ...baseData,\n    estado: \"diferente\",\n    sha: githubFile.sha\n  }\n}];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
         1168,
-        -128
+        -64
       ],
       "id": "de03ca99-6c33-42b6-9a22-fa3df473f663",
       "name": "Code in JavaScript"
@@ -173,7 +173,8 @@
         -128
       ],
       "id": "b5a757d4-db17-4977-9eea-c4057e977010",
-      "name": "Merge"
+      "name": "Merge",
+      "alwaysOutputData": true
     },
     {
       "parameters": {
@@ -342,15 +343,17 @@
         "operation": "edit",
         "owner": {
           "__rl": true,
-          "value": "={{ $('Edit Fields').item.json.repo.name }}",
+          "value": "={{ $json.repo_owner }}",
           "mode": "name"
         },
         "repository": {
           "__rl": true,
-          "mode": "name",
-          "value": ""
+          "value": "={{ $json.repo_name }}",
+          "mode": "name"
         },
-        "filePath": "={{ $('Edit Fields').item.json.repo.path }}"
+        "filePath": "={{ $json.repo_path }}",
+        "fileContent": "={{ $json.content }}",
+        "commitMessage": "={{ $json.commit_message }}"
       },
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
@@ -557,7 +560,24 @@
     },
     "Diferente": {
       "main": [
-        []
+        [
+          {
+            "node": "Edit a file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a file": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
@@ -570,7 +590,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "86ba1ab1-2367-4b6a-847a-8db92c1fef34",
+  "versionId": "cd76d60d-87b7-4fdb-9168-afefc96d05af",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
