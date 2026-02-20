@@ -1,0 +1,147 @@
+{
+  "updatedAt": "2026-02-19T10:05:25.963Z",
+  "createdAt": "2026-02-17T10:17:58.996Z",
+  "id": "RQrFp7C061U2345oBhQLp",
+  "name": "wordpress no funciona",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -304,
+        0
+      ],
+      "id": "d90dff35-5030-4a9a-a183-30c80bc65320",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://www.google.com/imgres?q=barberia&imgurl=https%3A%2F%2Fwww.emagister.com%2Fblog%2Fwp-content%2Fuploads%2F2020%2F10%2Fnathon-oski-EW_rqoSdDes-unsplash.jpg&imgrefurl=https%3A%2F%2Fwww.emagister.com%2Fblog%2Fquiero-estudiar-barberia-que-tengo-hacer%2F&docid=vyrr_0M_qjW83M&tbnid=BAafT7KNPvIWNM&vet=12ahUKEwjltbPZmeWSAxXa_rsIHVFTL1YQnPAOegQIFxAB..i&w=1920&h=1275&hcb=2&ved=2ahUKEwjltbPZmeWSAxXa_rsIHVFTL1YQnPAOegQIFxAB",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        256,
+        16
+      ],
+      "id": "5ad17749-7cd9-4cc3-b1e6-717bf6717120",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "url": "https://fersaenz181-mhdfg.wordpress.com",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "wordpressApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        432,
+        16
+      ],
+      "id": "5d169d43-b368-4716-bece-b9dba01dcc6f",
+      "name": "HTTP Request1",
+      "credentials": {
+        "wordpressApi": {
+          "id": "83u2apb8VsT6PHHX",
+          "name": "Wordpress account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "title": "Udia text post",
+        "additionalFields": {
+          "content": "Contenido del post",
+          "status": "draft",
+          "categories": []
+        }
+      },
+      "type": "n8n-nodes-base.wordpress",
+      "typeVersion": 1,
+      "position": [
+        16,
+        16
+      ],
+      "id": "afa36e78-493f-4b70-a75c-e8af4febe33c",
+      "name": "Create a post",
+      "credentials": {
+        "wordpressApi": {
+          "id": "83u2apb8VsT6PHHX",
+          "name": "Wordpress account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Create a post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a post": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "8b27503d-e4de-4c30-b3f3-ac1b62ae90fc",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-02-17T10:17:59.000Z",
+      "createdAt": "2026-02-17T10:17:59.000Z",
+      "role": "workflow:owner",
+      "workflowId": "RQrFp7C061U2345oBhQLp",
+      "projectId": "MmvYKa71ccIMyArc"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
