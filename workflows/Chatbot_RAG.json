@@ -3,7 +3,7 @@
   "createdAt": "2026-02-16T09:16:00.500Z",
   "id": "vTN_xanqhgvhXNi2UtrVc",
   "name": "Chatbot RAG",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
@@ -189,7 +189,7 @@
   },
   "pinData": {},
   "versionId": "03883ecc-87a5-4096-83a7-0ae4a683119c",
-  "activeVersionId": null,
+  "activeVersionId": "03883ecc-87a5-4096-83a7-0ae4a683119c",
   "triggerCount": 1,
   "shared": [
     {
@@ -200,6 +200,189 @@
       "projectId": "MmvYKa71ccIMyArc"
     }
   ],
-  "activeVersion": null,
+  "activeVersion": {
+    "updatedAt": "2026-02-23T10:15:55.000Z",
+    "createdAt": "2026-02-16T17:03:39.340Z",
+    "versionId": "03883ecc-87a5-4096-83a7-0ae4a683119c",
+    "workflowId": "vTN_xanqhgvhXNi2UtrVc",
+    "nodes": [
+      {
+        "parameters": {
+          "public": true,
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+        "typeVersion": 1.4,
+        "position": [
+          0,
+          0
+        ],
+        "id": "736a0c85-5aa5-4a92-9e94-c2b5a7b427ea",
+        "name": "When chat message received",
+        "webhookId": "9bbd55d9-1ede-4b99-858b-c197cd85bfac"
+      },
+      {
+        "parameters": {
+          "options": {
+            "systemMessage": "Eres un agente super amable que ayuda a la gente a infrormarse sobre temas de la barberia."
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 3.1,
+        "position": [
+          288,
+          0
+        ],
+        "id": "d768d00e-85a5-49c6-a210-34c56f5b1324",
+        "name": "AI Agent"
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-4o-mini",
+            "mode": "list",
+            "cachedResultName": "gpt-4o-mini"
+          },
+          "responsesApiEnabled": false,
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.3,
+        "position": [
+          224,
+          224
+        ],
+        "id": "b3e4a419-6aeb-477b-811b-2b0b2beb305b",
+        "name": "OpenAI Chat Model",
+        "credentials": {
+          "openAiApi": {
+            "id": "N2JeEF92nbocT2XP",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+        "typeVersion": 1.3,
+        "position": [
+          352,
+          224
+        ],
+        "id": "2fdef070-1ae9-44c7-ad00-9cb89d660004",
+        "name": "Simple Memory"
+      },
+      {
+        "parameters": {
+          "mode": "retrieve-as-tool",
+          "toolDescription": "Trabajo con pinecone vector donde tienes toda la información sobre la barbería. ",
+          "pineconeIndex": {
+            "__rl": true,
+            "value": "n8n1536",
+            "mode": "list",
+            "cachedResultName": "n8n1536"
+          },
+          "options": {
+            "pineconeNamespace": "udia_rag"
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+        "typeVersion": 1.3,
+        "position": [
+          480,
+          224
+        ],
+        "id": "1505b06f-45fc-41be-bf50-454aa736d271",
+        "name": "Pinecone Vector Store",
+        "credentials": {
+          "pineconeApi": {
+            "id": "s7tR8Lpm0Gu5QA4k",
+            "name": "PineconeApi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          560,
+          432
+        ],
+        "id": "6ecc0a05-d861-427a-9b4b-4cd0e44d5648",
+        "name": "Embeddings OpenAI",
+        "credentials": {
+          "openAiApi": {
+            "id": "N2JeEF92nbocT2XP",
+            "name": "OpenAi account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "When chat message received": {
+        "main": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Simple Memory": {
+        "ai_memory": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Pinecone Vector Store": {
+        "ai_tool": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Embeddings OpenAI": {
+        "ai_embedding": [
+          [
+            {
+              "node": "Pinecone Vector Store",
+              "type": "ai_embedding",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Fernando  Saenz",
+    "name": "Version 03883ecc",
+    "description": "",
+    "autosaved": true
+  },
   "tags": []
 }
