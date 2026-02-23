@@ -1,0 +1,109 @@
+{
+  "updatedAt": "2026-02-23T11:00:03.270Z",
+  "createdAt": "2026-02-23T10:43:37.362Z",
+  "id": "5SDzInvoEP6GLIc8wM6Vb",
+  "name": "citas web",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Agenda una cita",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Nombre"
+            },
+            {
+              "fieldLabel": "Apellidos "
+            },
+            {
+              "fieldLabel": "Telefono"
+            },
+            {
+              "fieldLabel": "Consentimiento",
+              "fieldType": "checkbox",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "He leído y acepto la Política de Privacidad https://tudominio.com/politica-privacidad"
+                  }
+                ]
+              },
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        208,
+        0
+      ],
+      "id": "047543f4-f05c-4fcd-a184-a1574d9a4f31",
+      "name": "On form submission",
+      "webhookId": "b093e9b8-1822-4f89-ac44-2026d6ea0ff5"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c4bb2603-8936-4dff-8dfb-604ec8942273",
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        416,
+        0
+      ],
+      "id": "f2853fee-6c62-4ef7-8662-51f16e6d569b",
+      "name": "Edit Fields"
+    }
+  ],
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "2a4ae3cd-8d84-4dfa-bbd5-7ca4668e9af9",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-02-23T10:43:37.365Z",
+      "createdAt": "2026-02-23T10:43:37.365Z",
+      "role": "workflow:owner",
+      "workflowId": "5SDzInvoEP6GLIc8wM6Vb",
+      "projectId": "MmvYKa71ccIMyArc"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
