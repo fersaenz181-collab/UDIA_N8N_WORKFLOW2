@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-23T11:00:03.270Z",
+  "updatedAt": "2026-02-25T17:16:50.786Z",
   "createdAt": "2026-02-23T10:43:37.362Z",
   "id": "5SDzInvoEP6GLIc8wM6Vb",
   "name": "citas web",
@@ -41,7 +41,7 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.5,
       "position": [
-        208,
+        -144,
         0
       ],
       "id": "047543f4-f05c-4fcd-a184-a1574d9a4f31",
@@ -54,8 +54,20 @@
           "assignments": [
             {
               "id": "c4bb2603-8936-4dff-8dfb-604ec8942273",
-              "name": "",
-              "value": "",
+              "name": "Nombre",
+              "value": "={{ $json.Nombre }}",
+              "type": "string"
+            },
+            {
+              "id": "20b02b75-8e65-41cf-ba3a-e210fa4f34f4",
+              "name": "Apellidos ",
+              "value": "={{ $json['Apellidos '] }}",
+              "type": "string"
+            },
+            {
+              "id": "13857de1-e49a-4001-bb9a-87cd29bf76b9",
+              "name": "Telefono",
+              "value": "={{ $json.Telefono }}",
               "type": "string"
             }
           ]
@@ -65,11 +77,381 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        416,
+        80,
         0
       ],
       "id": "f2853fee-6c62-4ef7-8662-51f16e6d569b",
       "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "275a18e4-ef98-4ae7-b6b8-64460c0aacfc",
+              "leftValue": "={{ $json.Telefono }}",
+              "rightValue": 100000000,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            },
+            {
+              "id": "f062c407-fd4c-4860-9828-24459f14d665",
+              "leftValue": "={{ $json.Telefono }}",
+              "rightValue": 1000000000,
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        304,
+        0
+      ],
+      "id": "92fe2835-7943-4552-9124-6d58f2d83e9a",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "errorMessage": "Error en el número de telefono!!"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        528,
+        96
+      ],
+      "id": "5522b85a-26ef-4d71-8758-7c895846d8fa",
+      "name": "Stop and Error"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/12xQl1XBKeiHYqDaQWXTmdQGgqVO4blnbXOb28qXqDY8/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/12xQl1XBKeiHYqDaQWXTmdQGgqVO4blnbXOb28qXqDY8/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Apellidos ": "={{ $json['Apellidos '] }}",
+            "Nombre": "={{ $json.Nombre }}",
+            "Telefono": "={{ $json.Telefono }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Apellidos ",
+              "displayName": "Apellidos ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Nombre",
+              "displayName": "Nombre",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Telefono",
+              "displayName": "Telefono",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        528,
+        -96
+      ],
+      "id": "5bbb48c6-6aa5-43ca-95c6-115fbb5d6201",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "S03et5OVpjcoBnA0",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/12xQl1XBKeiHYqDaQWXTmdQGgqVO4blnbXOb28qXqDY8/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/12xQl1XBKeiHYqDaQWXTmdQGgqVO4blnbXOb28qXqDY8/edit#gid=0"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -144,
+        544
+      ],
+      "id": "9538d789-9bb3-4fab-ba20-33cd8f4f8eb2",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "UymkWAyGSZNpp4xH",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/12xQl1XBKeiHYqDaQWXTmdQGgqVO4blnbXOb28qXqDY8/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/12xQl1XBKeiHYqDaQWXTmdQGgqVO4blnbXOb28qXqDY8/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Telefono",
+              "lookupValue": "={{ $json.Telefono }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        80,
+        544
+      ],
+      "id": "48b0c5ec-b6bd-4fb7-bedd-bcc7c8c6b2a0",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "S03et5OVpjcoBnA0",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// ===== CONFIGURACIÓN =====\nconst HORA_INICIO = 9;\nconst HORA_FIN = 17;\nconst DURACION_MINUTOS = 60;\nconst MAX_OPCIONES = 5;\n\n// ===== OBTENER BLOQUES OCUPADOS =====\nconst ocupados = $json.calendars?.primary?.busy || [];\n\nconst eventosOcupados = ocupados.map(e => ({\n  start: new Date(e.start),\n  end: new Date(e.end)\n}));\n\nfunction estaOcupado(inicio, fin) {\n  return eventosOcupados.some(evento => {\n    return inicio < evento.end && fin > evento.start;\n  });\n}\n\n// ===== GENERAR HUECOS DISPONIBLES =====\nlet huecos = [];\nlet ahora = new Date();\n\nfor (let i = 0; i < 7 && huecos.length < MAX_OPCIONES; i++) {\n\n  let dia = new Date();\n  dia.setDate(ahora.getDate() + i);\n\n  // Solo lunes (1) a viernes (5)\n  if (dia.getDay() >= 1 && dia.getDay() <= 5) {\n\n    for (let hora = HORA_INICIO; hora < HORA_FIN; hora++) {\n\n      let inicio = new Date(dia);\n      inicio.setHours(hora, 0, 0, 0);\n\n      let fin = new Date(inicio.getTime() + DURACION_MINUTOS * 60000);\n\n      // Evitar horas pasadas\n      if (inicio <= ahora) continue;\n\n      if (!estaOcupado(inicio, fin)) {\n\n        huecos.push({\n          inicioISO: inicio.toISOString(),\n          texto: inicio.toLocaleString(\"es-ES\", {\n            weekday: \"long\",\n            hour: \"2-digit\",\n            minute: \"2-digit\"\n          })\n        });\n\n        if (huecos.length >= MAX_OPCIONES) break;\n      }\n    }\n  }\n}\n\n// ===== CONSTRUIR MENSAJE =====\nlet mensaje;\n\nif (huecos.length === 0) {\n  mensaje = \"No tengo disponibilidad en los próximos días laborales.\";\n} else {\n  mensaje = \"Tengo disponibilidad en:\\n\\n\";\n  mensaje += huecos\n    .map((h, i) => `${i + 1}️⃣ ${h.texto}`)\n    .join(\"\\n\");\n  mensaje += \"\\n\\nResponde con el número que prefieras.\";\n}\n\n// ===== RETORNO CORRECTO PARA CODE NODE =====\nreturn [\n  {\n    json: {\n      opciones: huecos,\n      mensaje: mensaje\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        528,
+        544
+      ],
+      "id": "e2dc6f82-4660-4b91-aba1-99a9a28481e4",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "resource": "calendar",
+        "operation": "__CUSTOM_API_CALL__",
+        "calendar": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        -144,
+        1216
+      ],
+      "id": "741cfaac-b28b-4ee1-b639-8ed2afa2c2a1",
+      "name": "__CUSTOM_API_CALL__ calendar",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "pjBvS4mIslDHoJiA",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://www.googleapis.com/calendar/v3/freeBusy",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleCalendarOAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"timeMin\": \"{{ new Date().toISOString() }}\",\n  \"timeMax\": \"{{ new Date(Date.now() + 7*24*60*60*1000).toISOString() }}\",\n  \"timeZone\": \"Europe/Madrid\",\n  \"items\": [\n    { \"id\": \"primary\" }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        304,
+        544
+      ],
+      "id": "7db8efcb-c5f6-4170-8377-9330d728816f",
+      "name": "Google Calendar",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "pjBvS4mIslDHoJiA",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v18.0/34601760636/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer TU_ACCESS_TOKEN"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  messaging_product: \"whatsapp\",\n  to: $json.telefono.replace(\"+\",\"\"),\n  type: \"text\",\n  text: {\n    body: $json.mensaje\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -144,
+        320
+      ],
+      "id": "56bdd58f-f9ea-4f51-8e38-21b0f02ac4b6",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "923520874187742",
+        "recipientPhoneNumber": "=+34{{ $('Get row(s) in sheet').item.json.Telefono }}",
+        "textBody": "={{ $json.mensaje }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        752,
+        544
+      ],
+      "id": "c167c467-58ab-4b1d-8c04-94c35d57eeb8",
+      "name": "Send message and wait for response",
+      "webhookId": "8d7b93fd-f20c-4260-b047-8175df7fdebf",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "hW2YyTxuc9hcYOh2",
+          "name": "WhatsApp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        -144,
+        992
+      ],
+      "id": "45f30ca8-250f-4628-b385-061dcb716580",
+      "name": "Send message and wait for response1",
+      "webhookId": "c97987e1-b497-445a-b504-32dc172e7cb3",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "hW2YyTxuc9hcYOh2",
+          "name": "WhatsApp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "phoneNumberId": "923520874187742",
+        "recipientPhoneNumber": "=+34  {{ $json.Telefono }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        -144,
+        768
+      ],
+      "id": "ff6b5cf5-2fe8-4eed-b5a6-7fb792bc7e71",
+      "name": "Send message and wait for response2",
+      "webhookId": "d6281308-2fad-4290-9cdd-d8e0c79f06c9",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "hW2YyTxuc9hcYOh2",
+          "name": "WhatsApp account"
+        }
+      }
     }
   ],
   "connections": {
@@ -83,6 +465,89 @@
           }
         ]
       ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Google Calendar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "__CUSTOM_API_CALL__ calendar": {
+      "main": [
+        []
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Send message and wait for response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Calendar": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send message and wait for response2": {
+      "main": [
+        []
+      ]
     }
   },
   "settings": {
@@ -90,9 +555,11 @@
     "availableInMCP": false
   },
   "staticData": null,
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "pinData": {},
-  "versionId": "2a4ae3cd-8d84-4dfa-bbd5-7ca4668e9af9",
+  "versionId": "faaadfd1-f2e0-4946-8148-f400934801d4",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
