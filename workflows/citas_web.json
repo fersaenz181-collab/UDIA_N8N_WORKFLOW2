@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-25T17:16:50.786Z",
+  "updatedAt": "2026-02-26T10:14:42.234Z",
   "createdAt": "2026-02-23T10:43:37.362Z",
   "id": "5SDzInvoEP6GLIc8wM6Vb",
   "name": "citas web",
@@ -297,36 +297,11 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        528,
+        816,
         544
       ],
       "id": "e2dc6f82-4660-4b91-aba1-99a9a28481e4",
       "name": "Code in JavaScript"
-    },
-    {
-      "parameters": {
-        "resource": "calendar",
-        "operation": "__CUSTOM_API_CALL__",
-        "calendar": {
-          "__rl": true,
-          "mode": "list",
-          "value": ""
-        }
-      },
-      "type": "n8n-nodes-base.googleCalendar",
-      "typeVersion": 1.3,
-      "position": [
-        -144,
-        1216
-      ],
-      "id": "741cfaac-b28b-4ee1-b639-8ed2afa2c2a1",
-      "name": "__CUSTOM_API_CALL__ calendar",
-      "credentials": {
-        "googleCalendarOAuth2Api": {
-          "id": "pjBvS4mIslDHoJiA",
-          "name": "Google Calendar account"
-        }
-      }
     },
     {
       "parameters": {
@@ -342,8 +317,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        304,
-        544
+        608,
+        560
       ],
       "id": "7db8efcb-c5f6-4170-8377-9330d728816f",
       "name": "Google Calendar",
@@ -388,15 +363,15 @@
     {
       "parameters": {
         "operation": "send",
-        "phoneNumberId": "923520874187742",
-        "recipientPhoneNumber": "=+34{{ $('Get row(s) in sheet').item.json.Telefono }}",
-        "textBody": "={{ $json.mensaje }}",
+        "phoneNumberId": "=923520874187742",
+        "recipientPhoneNumber": "=+34  {{ $('Google Sheets Trigger').item.json.Telefono }}",
+        "textBody": "=Hola {{ $('Google Sheets Trigger').item.json.Nombre }}! Cuando te gustaria agendar una cita?",
         "additionalFields": {}
       },
       "type": "n8n-nodes-base.whatsApp",
       "typeVersion": 1.1,
       "position": [
-        752,
+        304,
         544
       ],
       "id": "c167c467-58ab-4b1d-8c04-94c35d57eeb8",
@@ -411,47 +386,32 @@
     },
     {
       "parameters": {
-        "operation": "sendAndWait",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.whatsApp",
-      "typeVersion": 1.1,
-      "position": [
-        -144,
-        992
-      ],
-      "id": "45f30ca8-250f-4628-b385-061dcb716580",
-      "name": "Send message and wait for response1",
-      "webhookId": "c97987e1-b497-445a-b504-32dc172e7cb3",
-      "credentials": {
-        "whatsAppApi": {
-          "id": "hW2YyTxuc9hcYOh2",
-          "name": "WhatsApp account"
+        "httpMethod": "POST",
+        "path": "whatsapp-in",
+        "options": {
+          "responseCode": {
+            "values": {}
+          },
+          "responseData": "={\n  \"status\": \"received\"\n}",
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
         }
-      }
-    },
-    {
-      "parameters": {
-        "operation": "sendAndWait",
-        "phoneNumberId": "923520874187742",
-        "recipientPhoneNumber": "=+34  {{ $json.Telefono }}",
-        "options": {}
       },
-      "type": "n8n-nodes-base.whatsApp",
-      "typeVersion": 1.1,
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
       "position": [
-        -144,
-        768
+        32,
+        848
       ],
-      "id": "ff6b5cf5-2fe8-4eed-b5a6-7fb792bc7e71",
-      "name": "Send message and wait for response2",
-      "webhookId": "d6281308-2fad-4290-9cdd-d8e0c79f06c9",
-      "credentials": {
-        "whatsAppApi": {
-          "id": "hW2YyTxuc9hcYOh2",
-          "name": "WhatsApp account"
-        }
-      }
+      "id": "12a873c5-135b-4ebd-a912-85b1632e08b9",
+      "name": "Webhook",
+      "webhookId": "64456d07-f87b-4dcc-b3c3-791f9691d79f"
     }
   ],
   "connections": {
@@ -510,27 +470,16 @@
       "main": [
         [
           {
-            "node": "Google Calendar",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "__CUSTOM_API_CALL__ calendar": {
-      "main": [
-        []
-      ]
-    },
-    "Code in JavaScript": {
-      "main": [
-        [
-          {
             "node": "Send message and wait for response",
             "type": "main",
             "index": 0
           }
         ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        []
       ]
     },
     "Google Calendar": {
@@ -543,11 +492,6 @@
           }
         ]
       ]
-    },
-    "Send message and wait for response2": {
-      "main": [
-        []
-      ]
     }
   },
   "settings": {
@@ -559,9 +503,9 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "faaadfd1-f2e0-4946-8148-f400934801d4",
+  "versionId": "94fbb434-8132-40f8-8fd9-fbd398e43f7d",
   "activeVersionId": null,
-  "triggerCount": 0,
+  "triggerCount": 2,
   "shared": [
     {
       "updatedAt": "2026-02-23T10:43:37.365Z",
