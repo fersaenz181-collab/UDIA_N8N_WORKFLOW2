@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-26T10:14:42.234Z",
+  "updatedAt": "2026-03-02T11:59:20.733Z",
   "createdAt": "2026-02-23T10:43:37.362Z",
   "id": "5SDzInvoEP6GLIc8wM6Vb",
   "name": "citas web",
@@ -362,30 +362,6 @@
     },
     {
       "parameters": {
-        "operation": "send",
-        "phoneNumberId": "=923520874187742",
-        "recipientPhoneNumber": "=+34  {{ $('Google Sheets Trigger').item.json.Telefono }}",
-        "textBody": "=Hola {{ $('Google Sheets Trigger').item.json.Nombre }}! Cuando te gustaria agendar una cita?",
-        "additionalFields": {}
-      },
-      "type": "n8n-nodes-base.whatsApp",
-      "typeVersion": 1.1,
-      "position": [
-        304,
-        544
-      ],
-      "id": "c167c467-58ab-4b1d-8c04-94c35d57eeb8",
-      "name": "Send message and wait for response",
-      "webhookId": "8d7b93fd-f20c-4260-b047-8175df7fdebf",
-      "credentials": {
-        "whatsAppApi": {
-          "id": "hW2YyTxuc9hcYOh2",
-          "name": "WhatsApp account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "httpMethod": "POST",
         "path": "whatsapp-in",
         "options": {
@@ -468,13 +444,7 @@
     },
     "Get row(s) in sheet": {
       "main": [
-        [
-          {
-            "node": "Send message and wait for response",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Code in JavaScript": {
@@ -503,7 +473,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "94fbb434-8132-40f8-8fd9-fbd398e43f7d",
+  "versionId": "06c87705-852c-42be-b876-3928136d7e64",
   "activeVersionId": null,
   "triggerCount": 2,
   "shared": [
