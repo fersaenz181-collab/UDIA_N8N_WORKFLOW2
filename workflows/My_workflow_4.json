@@ -1,0 +1,145 @@
+{
+  "updatedAt": "2026-03-02T17:32:08.855Z",
+  "createdAt": "2026-03-02T17:12:05.752Z",
+  "id": "EzRxDQanxhm2bLPN",
+  "name": "My workflow 4",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "288569d2-754d-469c-bbc4-785338d9bc89",
+      "name": "When Executed by Another Workflow",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\n  \"loc\": \"https://mascotalandia.es/26--natura-diet-daily-food-12kg-pienso-para-perros-con-pollo-y-arroz.html\",\n  \"image:image\": {\n    \"image:loc\": \"https://mascotalandia.es/38-large_default/natura-diet-daily-food-12kg-pienso-para-perros-con-pollo-y-arroz.jpg\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "c6a66511-1035-4e88-b2ce-52db184f80d0",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.loc }}",
+        "sendHeaders": true,
+        "specifyHeaders": "json",
+        "jsonHeaders": "{\n  \"User-Agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36\",\n  \"Accept\": \"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8\",\n  \"Accept-Language\": \"es-ES,es;q=0.9,en;q=0.8\",\n  \"Accept-Encoding\": \"gzip, deflate, br\",\n  \"Connection\": \"keep-alive\",\n  \"Upgrade-Insecure-Requests\": \"1\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        416,
+        0
+      ],
+      "id": "80f3920d-1f3c-41da-996f-d5041166cd74",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "nombre",
+              "cssSelector": ".product_name"
+            },
+            {
+              "key": "productor",
+              "cssSelector": ".product-manufacturer"
+            },
+            {
+              "key": "descripcion",
+              "cssSelector": ".product-description"
+            },
+            {
+              "key": "precio",
+              "cssSelector": ".current-price"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        624,
+        16
+      ],
+      "id": "ef631522-09a6-45e2-ad86-840017604edd",
+      "name": "HTML"
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "faed0096-ec9c-4ea6-9335-d1ede1363613",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-03-02T17:12:05.755Z",
+      "createdAt": "2026-03-02T17:12:05.755Z",
+      "role": "workflow:owner",
+      "workflowId": "EzRxDQanxhm2bLPN",
+      "projectId": "MmvYKa71ccIMyArc"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
