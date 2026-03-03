@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-20T15:33:03.310Z",
+  "updatedAt": "2026-03-02T11:18:39.942Z",
   "createdAt": "2026-02-19T10:05:37.111Z",
   "id": "04dKSMyiS0H6BzJ-wj4bu",
   "name": "BACK UP",
@@ -402,7 +402,8 @@
           "id": "1sshuaGbXQ7mL1lT",
           "name": "GitHub account"
         }
-      }
+      },
+      "onError": "continueRegularOutput"
     }
   ],
   "connections": {
@@ -601,14 +602,16 @@
   },
   "staticData": {
     "node:Schedule Trigger": {
-      "recurrenceRules": []
+      "recurrenceRules": [
+        0
+      ]
     }
   },
   "meta": {
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "a269a5eb-eecd-4bdd-a592-a481b10c5622",
+  "versionId": "000d03d8-affd-4e91-8bb4-97a6f4c1ebe5",
   "activeVersionId": "a269a5eb-eecd-4bdd-a592-a481b10c5622",
   "triggerCount": 1,
   "shared": [
