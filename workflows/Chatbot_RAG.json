@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-02T11:49:55.132Z",
+  "updatedAt": "2026-03-06T17:16:41.544Z",
   "createdAt": "2026-02-16T09:16:00.500Z",
   "id": "vTN_xanqhgvhXNi2UtrVc",
   "name": "Chatbot RAG",
@@ -79,9 +79,9 @@
         "toolDescription": "Trabajo con pinecone vector donde tienes toda la información sobre la barbería. ",
         "pineconeIndex": {
           "__rl": true,
-          "value": "n8n1536",
+          "value": "elevenlabsudia",
           "mode": "list",
-          "cachedResultName": "n8n1536"
+          "cachedResultName": "elevenlabsudia"
         },
         "options": {
           "pineconeNamespace": "udia_rag"
@@ -125,7 +125,13 @@
   "connections": {
     "When chat message received": {
       "main": [
-        []
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "OpenAI Chat Model": {
@@ -182,7 +188,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "cf269a39-e4f8-4ef8-b219-bc2ab2768155",
+  "versionId": "69045fb6-7f68-423b-a5e5-bc926b1dc590",
   "activeVersionId": "03883ecc-87a5-4096-83a7-0ae4a683119c",
   "triggerCount": 1,
   "shared": [
