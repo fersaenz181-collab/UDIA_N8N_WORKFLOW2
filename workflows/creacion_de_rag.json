@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-16T09:33:32.974Z",
+  "updatedAt": "2026-03-06T17:15:20.199Z",
   "createdAt": "2026-02-13T16:57:50.173Z",
   "id": "3nlgcvxaxg9ykJWUC1_Rn",
   "name": "creacion de rag",
@@ -71,9 +71,8 @@
         "mode": "insert",
         "pineconeIndex": {
           "__rl": true,
-          "value": "n8n1536",
-          "mode": "list",
-          "cachedResultName": "n8n1536"
+          "value": "elevenlabsudia",
+          "mode": "id"
         },
         "options": {
           "pineconeNamespace": "udia_rag"
@@ -207,7 +206,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "12ea02bf-1f6d-4ca4-ac9a-b22874cf8636",
+  "versionId": "c1a2d79d-f6a4-4edf-94e6-efa4ae196229",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
