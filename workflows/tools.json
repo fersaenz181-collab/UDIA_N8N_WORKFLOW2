@@ -1,0 +1,209 @@
+{
+  "updatedAt": "2026-03-09T10:56:56.436Z",
+  "createdAt": "2026-03-09T09:37:25.546Z",
+  "id": "FS1nTIATQBgTrex8",
+  "name": "tools",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "9b3e5e06-2797-414d-b298-5feea921d661",
+      "name": "When chat message received",
+      "webhookId": "212052e4-6ffe-4c46-95a1-8847659f8189"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a task management assistant.\n\nIf the user asks to create a task or mentions a task to be done,\nyou must use the ClickUp tool.\n\nThe task name should be a short summary of the request.\nYou manage tasks in ClickUp.\n\nIf the user asks to create a task:\n1. Use the ClickUp tool.\n2. task_name = short title of the task\n3. description = details from the user message\n\nAfter using the tool, stop and respond confirming the task was created.\nDo not call the tool multiple times.",
+          "maxIterations": 3
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "88aa21d2-2730-47c1-8ca8-a51da18a7cc1",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        224,
+        224
+      ],
+      "id": "11fd85c7-d9e0-45dc-b00c-14ce4df00d25",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "N2JeEF92nbocT2XP",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        352,
+        224
+      ],
+      "id": "fcc94ef8-6b26-443f-a7c9-c396401055ae",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "team": "90152454815",
+        "space": "901510449604",
+        "folder": "901515013430",
+        "list": "901521967874",
+        "name": "={{$fromAI(\"task_name\")}}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.clickUpTool",
+      "typeVersion": 1,
+      "position": [
+        512,
+        224
+      ],
+      "id": "05c5e653-962e-4cfd-b4e0-7112718e7178",
+      "name": "Create a task in ClickUp",
+      "credentials": {
+        "clickUpOAuth2Api": {
+          "id": "B85eNkbv52xlHdCW",
+          "name": "ClickUp account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.nasaTool",
+      "typeVersion": 1,
+      "position": [
+        768,
+        176
+      ],
+      "id": "2419c806-3742-456f-9e14-c0e0c513d84a",
+      "name": "Get the astronomy picture of the day in NASA",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.bitlyTool",
+      "typeVersion": 1,
+      "position": [
+        736,
+        336
+      ],
+      "id": "8524e40d-230e-4946-b0ab-0ae6329f049f",
+      "name": "Create a link in Bitly",
+      "disabled": true
+    }
+  ],
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a task in ClickUp": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get the astronomy picture of the day in NASA": {
+      "ai_tool": [
+        []
+      ]
+    },
+    "Create a link in Bitly": {
+      "ai_tool": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "34fd4602-a709-4a44-859b-689fc0c0ce56",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-03-09T09:37:25.550Z",
+      "createdAt": "2026-03-09T09:37:25.550Z",
+      "role": "workflow:owner",
+      "workflowId": "FS1nTIATQBgTrex8",
+      "projectId": "MmvYKa71ccIMyArc"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
