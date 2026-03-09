@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-06T17:51:06.617Z",
+  "updatedAt": "2026-03-09T09:32:29.326Z",
   "createdAt": "2026-03-06T17:17:43.602Z",
   "id": "WloBXPoTL8OZV4Nl",
   "name": "elevenlabs",
@@ -114,8 +114,8 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
       "typeVersion": 1.3,
       "position": [
-        -64,
-        96
+        -80,
+        160
       ],
       "id": "9eab0dcc-e4fb-4e4d-a819-ea01340999bd",
       "name": "Pinecone Vector Store",
@@ -218,7 +218,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "6ce6966d-ad5a-437b-b5e8-e44839232ce6",
+  "versionId": "86e321e0-100d-4f5c-9739-596d2665cfe6",
   "activeVersionId": "11103a4f-79da-4ac1-9c59-09d09a37abcd",
   "triggerCount": 1,
   "shared": [
