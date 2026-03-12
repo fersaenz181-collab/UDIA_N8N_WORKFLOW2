@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-06T10:19:49.458Z",
+  "updatedAt": "2026-03-12T10:06:44.944Z",
   "createdAt": "2026-03-02T17:00:28.593Z",
   "id": "UNfS4ZA84jws1GKn",
   "name": "Extraccion de datos",
@@ -114,7 +114,7 @@
           "value": "EzRxDQanxhm2bLPN",
           "mode": "list",
           "cachedResultUrl": "/workflow/EzRxDQanxhm2bLPN",
-          "cachedResultName": "My workflow 4"
+          "cachedResultName": "extraccion de datos"
         },
         "workflowInputs": {
           "mappingMode": "defineBelow",
@@ -237,7 +237,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "8d680c31-6738-4553-af34-f0967cdf0839",
+  "versionId": "8ab587e2-6d76-43f3-b6f7-e85c9fd1317d",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
