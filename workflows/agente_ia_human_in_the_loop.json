@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-12T10:55:53.312Z",
+  "updatedAt": "2026-03-12T11:48:57.011Z",
   "createdAt": "2026-03-12T10:28:52.602Z",
   "id": "P9Tf8l6Pm8xOfjZw",
   "name": "agente ia human in the loop",
@@ -80,6 +80,7 @@
     },
     {
       "parameters": {
+        "inputText": "={{ $json.chatInput }}",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.sentimentAnalysis",
@@ -135,6 +136,133 @@
           "name": "Google Gemini(PaLM) Api account 2"
         }
       }
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "sendTo": "fersaenz181@gmail.com",
+        "subject": "Aprobar",
+        "message": "={{ $('When chat message received').item.json.chatInput }}",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        320,
+        80
+      ],
+      "id": "8ef5590f-0307-4f69-b3a6-a17a05f8af17",
+      "name": "Send a message",
+      "webhookId": "1adb644f-3f7a-43b9-b69e-63ca9a9d6c57",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "5l0z46fsgRK7m0J7",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.data.approved }}",
+                    "rightValue": "true",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "3ac4d031-7925-4386-bd69-3e60bbc886b5"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "54c77a02-53c6-414b-8f21-e3ce7e28538d",
+                    "leftValue": "={{ $json.data.approved }}",
+                    "rightValue": "false",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        528,
+        80
+      ],
+      "id": "b0ef2d97-e0e7-4b2e-912d-f18279adcedf",
+      "name": "Switch"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        736,
+        176
+      ],
+      "id": "f3a6df1c-389b-4d14-b319-90adc1abb535",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "sendTo": "fersaenz181@gmail.com",
+        "subject": "Proyecto",
+        "message": "Hola Laura,  Gracias por tu mensaje y por revisar la propuesta con tu equipo.  Nos alegra saber que veis potencial para avanzar. Por nuestra parte estamos abiertos a revisar el esquema de comisiones y los plazos de implementación para encontrar un punto que funcione bien para ambos.  Si te parece, podemos comentarlo con más detalle en una reunión. Tengo disponibilidad esta semana el miércoles o el jueves por la mañana, pero puedo adaptarme si otro horario os encaja mejor.  Quedo atento a tu confirmación.  Un saludo, Carlos",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        736,
+        32
+      ],
+      "id": "f09d59a2-d334-4708-a6c7-531de287d581",
+      "name": "Send a message1",
+      "webhookId": "31e0575e-e43a-4eca-980a-f00a75cc65a6",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "5l0z46fsgRK7m0J7",
+          "name": "Gmail account"
+        }
+      }
     }
   ],
   "connections": {
@@ -158,11 +286,6 @@
       "ai_languageModel": [
         [
           {
-            "node": "Sentiment Analysis",
-            "type": "ai_languageModel",
-            "index": 0
-          },
-          {
             "node": "Information Extractor",
             "type": "ai_languageModel",
             "index": 0
@@ -176,6 +299,51 @@
           {
             "node": "Text Classifier",
             "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Sentiment Analysis",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sentiment Analysis": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
             "index": 0
           }
         ]
@@ -192,7 +360,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "a02170f7-46dc-484a-b0fc-25bcded422b9",
+  "versionId": "15611407-30a4-4fb0-aa10-212681cc2384",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
