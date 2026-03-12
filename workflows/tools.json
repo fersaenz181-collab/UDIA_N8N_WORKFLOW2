@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-09T10:56:56.436Z",
+  "updatedAt": "2026-03-12T09:57:56.357Z",
   "createdAt": "2026-03-09T09:37:25.546Z",
   "id": "FS1nTIATQBgTrex8",
   "name": "tools",
@@ -118,8 +118,8 @@
       "type": "n8n-nodes-base.bitlyTool",
       "typeVersion": 1,
       "position": [
-        736,
-        336
+        624,
+        208
       ],
       "id": "8524e40d-230e-4946-b0ab-0ae6329f049f",
       "name": "Create a link in Bitly",
@@ -192,7 +192,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "34fd4602-a709-4a44-859b-689fc0c0ce56",
+  "versionId": "f35493f8-b104-4fab-bf2f-2c9840286003",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
