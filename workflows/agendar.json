@@ -1,0 +1,66 @@
+{
+  "updatedAt": "2026-03-13T10:12:15.661Z",
+  "createdAt": "2026-03-13T09:48:23.367Z",
+  "id": "NJ6YNksnJvuKaSNj",
+  "name": "agendar",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "fecha"
+            },
+            {
+              "name": "horario"
+            },
+            {
+              "name": "nombre completo"
+            },
+            {
+              "name": "email"
+            }
+          ]
+        }
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        272,
+        352
+      ]
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "d99d5c41-0aff-491a-abf4-3047e161ba4c",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-03-13T09:48:23.370Z",
+      "createdAt": "2026-03-13T09:48:23.370Z",
+      "role": "workflow:owner",
+      "workflowId": "NJ6YNksnJvuKaSNj",
+      "projectId": "MmvYKa71ccIMyArc"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
