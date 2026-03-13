@@ -1,0 +1,152 @@
+{
+  "updatedAt": "2026-03-13T10:59:13.081Z",
+  "createdAt": "2026-03-13T09:48:17.248Z",
+  "id": "NXGOaWHN5onyWLmL",
+  "name": "disponibilidad",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "fecha"
+            }
+          ]
+        }
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        272,
+        352
+      ],
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $json.fecha }}",
+        "format": "yyyy/MM/dd",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        784,
+        352
+      ],
+      "id": "7e3da813-3c69-4c7e-b323-b162b3f1bbe1",
+      "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0b445b3b-4351-4ebc-9dae-a6fdfb5d7f1a",
+              "name": "fecha",
+              "value": "2026/03/17",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        480,
+        352
+      ],
+      "id": "b5e5b653-15d3-4b4a-9360-5b34876d0273",
+      "name": "Edit Fields"
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "5066d5b8-524a-4a89-9b5d-3637b733353e",
+  "activeVersionId": "bcd19fe5-3b9f-4496-ac63-8fbbf32ef020",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-03-13T09:48:17.251Z",
+      "createdAt": "2026-03-13T09:48:17.251Z",
+      "role": "workflow:owner",
+      "workflowId": "NXGOaWHN5onyWLmL",
+      "projectId": "MmvYKa71ccIMyArc"
+    }
+  ],
+  "activeVersion": {
+    "updatedAt": "2026-03-13T10:53:36.000Z",
+    "createdAt": "2026-03-13T10:45:27.499Z",
+    "versionId": "bcd19fe5-3b9f-4496-ac63-8fbbf32ef020",
+    "workflowId": "NXGOaWHN5onyWLmL",
+    "nodes": [
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "fecha"
+              }
+            ]
+          }
+        },
+        "id": "c055762a-8fe7-4141-a639-df2372f30060",
+        "typeVersion": 1.1,
+        "name": "When Executed by Another Workflow",
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "position": [
+          272,
+          352
+        ],
+        "alwaysOutputData": false
+      }
+    ],
+    "connections": {
+      "When Executed by Another Workflow": {
+        "main": [
+          []
+        ]
+      }
+    },
+    "authors": "Fernando  Saenz",
+    "name": "Version bcd19fe5",
+    "description": "",
+    "autosaved": true
+  },
+  "tags": []
+}
