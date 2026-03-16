@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-16T11:00:01.132Z",
+  "updatedAt": "2026-03-16T17:08:12.166Z",
   "createdAt": "2026-03-13T09:48:17.248Z",
   "id": "NXGOaWHN5onyWLmL",
   "name": "disponibilidad",
@@ -51,6 +51,7 @@
           "mode": "list",
           "cachedResultName": "clinican8n"
         },
+        "timeMin": "={{ $json.formattedDate }}T09:00:00",
         "timeMax": "={{ $json.formattedDate }}T17:00:00",
         "options": {
           "outputFormat": "bookedSlots",
@@ -65,12 +66,98 @@
       "type": "n8n-nodes-base.googleCalendar",
       "typeVersion": 1.3,
       "position": [
-        720,
-        352
+        112,
+        656
       ],
       "id": "e758bc52-6921-44e4-b467-f6ae679de36a",
       "name": "Get availability in a calendar",
       "alwaysOutputData": true,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "pjBvS4mIslDHoJiA",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "start"
+            },
+            {
+              "fieldToAggregate": "end"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        288,
+        656
+      ],
+      "id": "717bed3a-055e-4fdc-b8e9-b157886bee4e",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=Devuelveme los espacios disponibles en el calendario el {{ $json.formattedDate }} en espacios de 60 minutos. El out por ejemplo debe ser asi:\n\n9:00\n\n11:00\n\n13:00\n\n15:00"
+            },
+            {
+              "role": "system",
+              "content": "=You are an AI assistant specialized in calendar availability management.\n\nYou have access to a tool that returns the **booked time slots (occupied events)** from a calendar within a given date range.\n\nYour responsibility is to calculate the **available appointment slots** based on the occupied times returned by the tool.\n\nWORKING RULES\n\n1. The working schedule is from **09:00 to 17:00**.\n2. Each appointment has a **fixed duration of 60 minutes**.\n3. The calendar tool returns **only the occupied time intervals**.\n4. Your task is to determine which time slots are **still available**.\n5. All calculations must be performed strictly within the working hours.\n\nAVAILABILITY CALCULATION PROCESS\n\n1. Divide the working day (09:00–17:00) into **60-minute time blocks**.\n2. Compare each block against the occupied intervals returned by the tool.\n3. If a block overlaps partially or fully with an occupied interval, that block must be removed.\n4. The remaining blocks represent the **available appointment slots**.\n\nIMPORTANT RULES\n\n* Never invent time slots.\n* Only use the occupied intervals returned by the tool.\n* If all blocks are occupied, return an empty list.\n* Do not include slots outside the working hours.\n\nEXPECTED OUTPUT FORMAT (JSON)\n\n{\n\"available_slots\": [\n\"2025-07-08T09:00:00\",\n\"2025-07-08T10:00:00\",\n\"2025-07-08T12:00:00\",\n\"2025-07-08T14:00:00\"\n]\n}\n\nEach element represents the **start time of an available 60-minute appointment slot**.\n\nEjemplo de output final para el usuario es:\n8:00\n11:00\n12:00\n15:00\n16:00"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        704,
+        336
+      ],
+      "id": "5b73f64e-bb9a-435f-8735-99f3b4d0b254",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "N2JeEF92nbocT2XP",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "fersaenz181@gmail.com",
+          "mode": "list",
+          "cachedResultName": "clinican8n"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        776,
+        560
+      ],
+      "id": "786aeb7f-54f1-4f4d-ae9a-85af5b4ea381",
+      "name": "Get many events in Google Calendar",
       "credentials": {
         "googleCalendarOAuth2Api": {
           "id": "pjBvS4mIslDHoJiA",
@@ -95,7 +182,7 @@
       "main": [
         [
           {
-            "node": "Get availability in a calendar",
+            "node": "Message a model",
             "type": "main",
             "index": 0
           }
@@ -104,7 +191,24 @@
     },
     "Get availability in a calendar": {
       "main": [
-        []
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many events in Google Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "Message a model",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
       ]
     }
   },
@@ -116,20 +220,9 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {
-    "When Executed by Another Workflow": [
-      {
-        "json": {
-          "fecha": "2026-03-20"
-        },
-        "pairedItem": {
-          "item": 0
-        }
-      }
-    ]
-  },
-  "versionId": "e0e63049-02bc-4646-90af-c4d8303ed9d1",
-  "activeVersionId": "bcd19fe5-3b9f-4496-ac63-8fbbf32ef020",
+  "pinData": {},
+  "versionId": "cb521958-785f-4cbc-974b-53acd949bedf",
+  "activeVersionId": "fdbe4617-e4da-4984-bfa8-7b0c22a7597f",
   "triggerCount": 0,
   "shared": [
     {
@@ -141,9 +234,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2026-03-13T10:53:36.000Z",
-    "createdAt": "2026-03-13T10:45:27.499Z",
-    "versionId": "bcd19fe5-3b9f-4496-ac63-8fbbf32ef020",
+    "updatedAt": "2026-03-16T16:14:34.000Z",
+    "createdAt": "2026-03-16T16:14:25.453Z",
+    "versionId": "fdbe4617-e4da-4984-bfa8-7b0c22a7597f",
     "workflowId": "NXGOaWHN5onyWLmL",
     "nodes": [
       {
@@ -161,21 +254,199 @@
         "name": "When Executed by Another Workflow",
         "type": "n8n-nodes-base.executeWorkflowTrigger",
         "position": [
-          272,
-          352
+          256,
+          336
         ],
         "alwaysOutputData": false
+      },
+      {
+        "parameters": {
+          "operation": "formatDate",
+          "date": "={{ $json.fecha }}",
+          "format": "yyyy-MM-dd",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.dateTime",
+        "typeVersion": 2,
+        "position": [
+          416,
+          384
+        ],
+        "id": "7e3da813-3c69-4c7e-b323-b162b3f1bbe1",
+        "name": "Date & Time"
+      },
+      {
+        "parameters": {
+          "resource": "calendar",
+          "calendar": {
+            "__rl": true,
+            "value": "fersaenz181@gmail.com",
+            "mode": "list",
+            "cachedResultName": "clinican8n"
+          },
+          "timeMin": "={{ $json.formattedDate }}T09:00:00",
+          "timeMax": "={{ $json.formattedDate }}T17:00:00",
+          "options": {
+            "outputFormat": "bookedSlots",
+            "timezone": {
+              "__rl": true,
+              "value": "Europe/Madrid",
+              "mode": "list",
+              "cachedResultName": "Europe/Madrid"
+            }
+          }
+        },
+        "type": "n8n-nodes-base.googleCalendar",
+        "typeVersion": 1.3,
+        "position": [
+          352,
+          592
+        ],
+        "id": "e758bc52-6921-44e4-b467-f6ae679de36a",
+        "name": "Get availability in a calendar",
+        "alwaysOutputData": true,
+        "credentials": {
+          "googleCalendarOAuth2Api": {
+            "id": "pjBvS4mIslDHoJiA",
+            "name": "Google Calendar account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "fieldsToAggregate": {
+            "fieldToAggregate": [
+              {
+                "fieldToAggregate": "start"
+              },
+              {
+                "fieldToAggregate": "end"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.aggregate",
+        "typeVersion": 1,
+        "position": [
+          480,
+          560
+        ],
+        "id": "717bed3a-055e-4fdc-b8e9-b157886bee4e",
+        "name": "Aggregate"
+      },
+      {
+        "parameters": {
+          "modelId": {
+            "__rl": true,
+            "value": "gpt-4.1-mini",
+            "mode": "list",
+            "cachedResultName": "GPT-4.1-MINI"
+          },
+          "responses": {
+            "values": [
+              {
+                "content": "=Devuelveme los espacios disponibles en el calendario el {{ $json.formattedDate }} en espacios de 60 minutos. El out por ejemplo debe ser asi:\n\n9:00\n\n11:00\n\n13:00\n\n15:00"
+              },
+              {
+                "role": "system",
+                "content": "=You are an AI assistant specialized in calendar availability management.\n\nYou have access to a tool that returns the **booked time slots (occupied events)** from a calendar within a given date range.\n\nYour responsibility is to calculate the **available appointment slots** based on the occupied times returned by the tool.\n\nWORKING RULES\n\n1. The working schedule is from **09:00 to 17:00**.\n2. Each appointment has a **fixed duration of 60 minutes**.\n3. The calendar tool returns **only the occupied time intervals**.\n4. Your task is to determine which time slots are **still available**.\n5. All calculations must be performed strictly within the working hours.\n\nAVAILABILITY CALCULATION PROCESS\n\n1. Divide the working day (09:00–17:00) into **60-minute time blocks**.\n2. Compare each block against the occupied intervals returned by the tool.\n3. If a block overlaps partially or fully with an occupied interval, that block must be removed.\n4. The remaining blocks represent the **available appointment slots**.\n\nIMPORTANT RULES\n\n* Never invent time slots.\n* Only use the occupied intervals returned by the tool.\n* If all blocks are occupied, return an empty list.\n* Do not include slots outside the working hours.\n\nEXPECTED OUTPUT FORMAT (JSON)\n\n{\n\"available_slots\": [\n\"2025-07-08T09:00:00\",\n\"2025-07-08T10:00:00\",\n\"2025-07-08T12:00:00\",\n\"2025-07-08T14:00:00\"\n]\n}\n\nEach element represents the **start time of an available 60-minute appointment slot**.\n\nEjemplo de output final para el usuario es:\n8:00\n11:00\n12:00\n15:00\n16:00"
+              }
+            ]
+          },
+          "builtInTools": {},
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.openAi",
+        "typeVersion": 2.1,
+        "position": [
+          688,
+          368
+        ],
+        "id": "5b73f64e-bb9a-435f-8735-99f3b4d0b254",
+        "name": "Message a model",
+        "credentials": {
+          "openAiApi": {
+            "id": "N2JeEF92nbocT2XP",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "calendar": {
+            "__rl": true,
+            "value": "fersaenz181@gmail.com",
+            "mode": "list",
+            "cachedResultName": "clinican8n"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleCalendarTool",
+        "typeVersion": 1.3,
+        "position": [
+          784,
+          576
+        ],
+        "id": "786aeb7f-54f1-4f4d-ae9a-85af5b4ea381",
+        "name": "Get many events in Google Calendar",
+        "credentials": {
+          "googleCalendarOAuth2Api": {
+            "id": "pjBvS4mIslDHoJiA",
+            "name": "Google Calendar account"
+          }
+        }
       }
     ],
     "connections": {
       "When Executed by Another Workflow": {
         "main": [
-          []
+          [
+            {
+              "node": "Date & Time",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Date & Time": {
+        "main": [
+          [
+            {
+              "node": "Message a model",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get availability in a calendar": {
+        "main": [
+          [
+            {
+              "node": "Aggregate",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get many events in Google Calendar": {
+        "ai_tool": [
+          [
+            {
+              "node": "Message a model",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
         ]
       }
     },
     "authors": "Fernando  Saenz",
-    "name": "Version bcd19fe5",
+    "name": "Version fdbe4617",
     "description": "",
     "autosaved": true
   },
