@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-03-13T10:12:15.661Z",
+  "updatedAt": "2026-03-16T22:10:59.534Z",
   "createdAt": "2026-03-13T09:48:23.367Z",
   "id": "NJ6YNksnJvuKaSNj",
   "name": "agendar",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
@@ -21,6 +21,9 @@
             },
             {
               "name": "email"
+            },
+            {
+              "name": "numero"
             }
           ]
         }
@@ -33,24 +36,198 @@
         272,
         352
       ]
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "fersaenz181@gmail.com",
+          "mode": "list",
+          "cachedResultName": "clinican8n"
+        },
+        "start": "={{ $json.fecha }}T{{ $json.horario }}",
+        "end": "={{ DateTime.fromISO($json.fecha + \"T\" + $json.horario).plus({ hours: 1 }).toFormat(\"yyyy-MM-dd'T'HH:mm\") }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        480,
+        352
+      ],
+      "id": "efd35efc-a89e-4008-91ec-26be0e126dca",
+      "name": "Create an event",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "pjBvS4mIslDHoJiA",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1uo2AOXad-mQ3kNGHehBFcMTnb1-J3CcORF76vnk3qUc",
+          "mode": "list",
+          "cachedResultName": "base de datos clinica",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uo2AOXad-mQ3kNGHehBFcMTnb1-J3CcORF76vnk3qUc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uo2AOXad-mQ3kNGHehBFcMTnb1-J3CcORF76vnk3qUc/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id calendar": "={{ $json.id }}",
+            "numero": "={{ $json.creator.email }}",
+            "fecha": "={{ $json.start.dateTime }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "numero",
+              "displayName": "numero",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "id calendar",
+              "displayName": "id calendar",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "fecha",
+              "displayName": "fecha",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        688,
+        352
+      ],
+      "id": "b969ba3f-b7d2-4e3f-aaef-c27a4a96ae8a",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "S03et5OVpjcoBnA0",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c124a9af-595b-4177-b5a7-2526daa47394",
+              "name": "hecho ",
+              "value": "hecho",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        896,
+        352
+      ],
+      "id": "582bda4a-2339-409c-b82c-8efe474f8de5",
+      "name": "Edit Fields"
     }
   ],
   "connections": {
     "When Executed by Another Workflow": {
       "main": [
-        []
+        [
+          {
+            "node": "Create an event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an event": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
   "settings": {
     "executionOrder": "v1",
-    "availableInMCP": false
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "timezone": "Europe/Madrid",
+    "callerPolicy": "workflowsFromSameOwner",
+    "binaryMode": "separate"
   },
   "staticData": null,
-  "meta": null,
-  "pinData": {},
-  "versionId": "d99d5c41-0aff-491a-abf4-3047e161ba4c",
-  "activeVersionId": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "fecha": "2026-03-27",
+          "horario": "10:00:00",
+          "nombre completo": "Fernando Saenz",
+          "email": "hola@gmail.com",
+          "numero": "601760636"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "978ed4cd-6133-4321-95a1-1fc1d5c8f3d2",
+  "activeVersionId": "978ed4cd-6133-4321-95a1-1fc1d5c8f3d2",
   "triggerCount": 0,
   "shared": [
     {
@@ -61,6 +238,208 @@
       "projectId": "MmvYKa71ccIMyArc"
     }
   ],
-  "activeVersion": null,
+  "activeVersion": {
+    "updatedAt": "2026-03-16T22:18:21.000Z",
+    "createdAt": "2026-03-16T22:10:59.535Z",
+    "versionId": "978ed4cd-6133-4321-95a1-1fc1d5c8f3d2",
+    "workflowId": "NJ6YNksnJvuKaSNj",
+    "nodes": [
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "fecha"
+              },
+              {
+                "name": "horario"
+              },
+              {
+                "name": "nombre completo"
+              },
+              {
+                "name": "email"
+              },
+              {
+                "name": "numero"
+              }
+            ]
+          }
+        },
+        "id": "c055762a-8fe7-4141-a639-df2372f30060",
+        "typeVersion": 1.1,
+        "name": "When Executed by Another Workflow",
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "position": [
+          272,
+          352
+        ]
+      },
+      {
+        "parameters": {
+          "calendar": {
+            "__rl": true,
+            "value": "fersaenz181@gmail.com",
+            "mode": "list",
+            "cachedResultName": "clinican8n"
+          },
+          "start": "={{ $json.fecha }}T{{ $json.horario }}",
+          "end": "={{ DateTime.fromISO($json.fecha + \"T\" + $json.horario).plus({ hours: 1 }).toFormat(\"yyyy-MM-dd'T'HH:mm\") }}",
+          "additionalFields": {}
+        },
+        "type": "n8n-nodes-base.googleCalendar",
+        "typeVersion": 1.3,
+        "position": [
+          480,
+          352
+        ],
+        "id": "efd35efc-a89e-4008-91ec-26be0e126dca",
+        "name": "Create an event",
+        "credentials": {
+          "googleCalendarOAuth2Api": {
+            "id": "pjBvS4mIslDHoJiA",
+            "name": "Google Calendar account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "append",
+          "documentId": {
+            "__rl": true,
+            "value": "1uo2AOXad-mQ3kNGHehBFcMTnb1-J3CcORF76vnk3qUc",
+            "mode": "list",
+            "cachedResultName": "base de datos clinica",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uo2AOXad-mQ3kNGHehBFcMTnb1-J3CcORF76vnk3qUc/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": "gid=0",
+            "mode": "list",
+            "cachedResultName": "Hoja 1",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uo2AOXad-mQ3kNGHehBFcMTnb1-J3CcORF76vnk3qUc/edit#gid=0"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "id calendar": "={{ $json.id }}",
+              "numero": "={{ $json.creator.email }}",
+              "fecha": "={{ $json.start.dateTime }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "numero",
+                "displayName": "numero",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "id calendar",
+                "displayName": "id calendar",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "fecha",
+                "displayName": "fecha",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          688,
+          352
+        ],
+        "id": "b969ba3f-b7d2-4e3f-aaef-c27a4a96ae8a",
+        "name": "Append row in sheet",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "S03et5OVpjcoBnA0",
+            "name": "Google Sheets account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "c124a9af-595b-4177-b5a7-2526daa47394",
+                "name": "hecho ",
+                "value": "hecho",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          896,
+          352
+        ],
+        "id": "582bda4a-2339-409c-b82c-8efe474f8de5",
+        "name": "Edit Fields"
+      }
+    ],
+    "connections": {
+      "When Executed by Another Workflow": {
+        "main": [
+          [
+            {
+              "node": "Create an event",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Create an event": {
+        "main": [
+          [
+            {
+              "node": "Append row in sheet",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Append row in sheet": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Fernando  Saenz",
+    "name": "Version 978ed4cd",
+    "description": "",
+    "autosaved": true
+  },
   "tags": []
 }
