@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-16T22:10:59.534Z",
+  "updatedAt": "2026-03-16T23:53:25.368Z",
   "createdAt": "2026-03-13T09:48:23.367Z",
   "id": "NJ6YNksnJvuKaSNj",
   "name": "agendar",
@@ -85,7 +85,7 @@
           "mappingMode": "defineBelow",
           "value": {
             "id calendar": "={{ $json.id }}",
-            "numero": "={{ $json.creator.email }}",
+            "numero": "={{ $('When Executed by Another Workflow').item.json.numero }}",
             "fecha": "={{ $json.start.dateTime }}"
           },
           "matchingColumns": [],
@@ -210,24 +210,9 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {
-    "When Executed by Another Workflow": [
-      {
-        "json": {
-          "fecha": "2026-03-27",
-          "horario": "10:00:00",
-          "nombre completo": "Fernando Saenz",
-          "email": "hola@gmail.com",
-          "numero": "601760636"
-        },
-        "pairedItem": {
-          "item": 0
-        }
-      }
-    ]
-  },
-  "versionId": "978ed4cd-6133-4321-95a1-1fc1d5c8f3d2",
-  "activeVersionId": "978ed4cd-6133-4321-95a1-1fc1d5c8f3d2",
+  "pinData": {},
+  "versionId": "e4693908-cb92-40cf-9c9e-76cf6eff7624",
+  "activeVersionId": "e4693908-cb92-40cf-9c9e-76cf6eff7624",
   "triggerCount": 0,
   "shared": [
     {
@@ -239,9 +224,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2026-03-16T22:18:21.000Z",
-    "createdAt": "2026-03-16T22:10:59.535Z",
-    "versionId": "978ed4cd-6133-4321-95a1-1fc1d5c8f3d2",
+    "updatedAt": "2026-03-16T23:53:15.000Z",
+    "createdAt": "2026-03-16T23:19:42.580Z",
+    "versionId": "e4693908-cb92-40cf-9c9e-76cf6eff7624",
     "workflowId": "NJ6YNksnJvuKaSNj",
     "nodes": [
       {
@@ -323,7 +308,7 @@
             "mappingMode": "defineBelow",
             "value": {
               "id calendar": "={{ $json.id }}",
-              "numero": "={{ $json.creator.email }}",
+              "numero": "={{ $('When Executed by Another Workflow').item.json.numero }}",
               "fecha": "={{ $json.start.dateTime }}"
             },
             "matchingColumns": [],
@@ -437,7 +422,7 @@
       }
     },
     "authors": "Fernando  Saenz",
-    "name": "Version 978ed4cd",
+    "name": "Version e4693908",
     "description": "",
     "autosaved": true
   },
