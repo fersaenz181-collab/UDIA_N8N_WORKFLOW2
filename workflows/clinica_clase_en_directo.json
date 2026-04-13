@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-17T00:07:35.119Z",
+  "updatedAt": "2026-04-13T18:29:32.021Z",
   "createdAt": "2026-03-12T12:11:34.562Z",
   "id": "NjeA1GsX7oK7fTk4",
   "name": "clinica clase en directo",
@@ -29,7 +29,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        408,
+        416,
         0
       ],
       "id": "6873667d-497c-4f35-ada6-79b9ad55b1dd",
@@ -68,8 +68,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.3,
       "position": [
-        0,
-        328
+        -64,
+        896
       ],
       "id": "b6f8342c-b749-4450-b059-ac2f560e5075",
       "name": "Postgres Chat Memory",
@@ -274,6 +274,82 @@
       ],
       "id": "2fc638ce-75cf-4f7c-8d60-5a57159dc8bd",
       "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v22.0/923520874187742/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer EAAMuiiniDzUBQ5WI5UZAe3DpopHiyr36rLsrmsciZA0RniFk0abi3cBn0GbtPfDUZBUM48mvpmhdwtIwdAADULJSNey8Xa5ZChmGZC1ZAje5CqzFIdPv16fGmmX9BiRYPV1RdIHSCoXGSdIwNDD0qpvU1P9g7XImsUmZBmwNOlowZCxBSZBzWgc1sZCQZCZCnC4ZBApj6otr79tiq7WJgtnajkujMl8ZCG0wA2wBQTWhW4YVvIqCZCcGjDPkv41bzrN6NzjcEvNDLmvk6O9toZCEmod1W5Dva7JV"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "=json",
+        "bodyParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "jsonBody": "={{ $json }}",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1456,
+        528
+      ],
+      "id": "91ee07c4-d4d6-4e8c-93b2-65881e7a6a6b",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "return {\n  json: {\n    messaging_product: \"whatsapp\",\n    to: $node[\"WhatsApp Trigger\"].json.contacts[0].wa_id,\n    type: \"text\",\n    text: {\n      body: $json.output\n    }\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        528
+      ],
+      "id": "4008e550-2acf-4c16-8272-1fecb8b7a390",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ],
+        "options": {}
+      },
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        48,
+        480
+      ],
+      "id": "e38b59af-4424-46c6-8384-e99572691709",
+      "name": "WhatsApp Trigger",
+      "webhookId": "7bc7ea57-9d83-464a-b028-89bc036372c0",
+      "credentials": {
+        "whatsAppTriggerApi": {
+          "id": "9IohpIXVA4ePP48e",
+          "name": "WhatsApp OAuth account"
+        }
+      }
     }
   ],
   "connections": {
@@ -347,6 +423,17 @@
           }
         ]
       ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -359,7 +446,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "1a5b4ed0-d61d-4725-bfdc-4e86f6324a22",
+  "versionId": "8870eb24-9418-4c5b-a4b1-4909d9f770e9",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
