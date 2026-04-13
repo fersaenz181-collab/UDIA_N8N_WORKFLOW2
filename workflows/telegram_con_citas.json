@@ -1,0 +1,82 @@
+{
+  "updatedAt": "2026-04-13T18:30:07.000Z",
+  "createdAt": "2026-04-13T18:11:50.600Z",
+  "id": "1bhMoCs1SA2EyU4h",
+  "name": "telegram con citas",
+  "active": false,
+  "isArchived": true,
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "bb4958a4-0613-40bd-8965-d818b9f7b4ef",
+      "name": "Telegram Trigger",
+      "webhookId": "7d8be83d-add1-452b-a9ad-3eb768932fb3",
+      "credentials": {
+        "telegramApi": {
+          "id": "1nzQW7gGvoGma654",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        208,
+        0
+      ],
+      "id": "74ea64ca-2370-49cc-bb25-6428ea9fee5c",
+      "name": "Execute Workflow"
+    }
+  ],
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Execute Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "bef3cafe-b9ff-4004-9140-1153f638a2b0",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-04-13T18:11:50.605Z",
+      "createdAt": "2026-04-13T18:11:50.605Z",
+      "role": "workflow:owner",
+      "workflowId": "1bhMoCs1SA2EyU4h",
+      "projectId": "MmvYKa71ccIMyArc"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
