@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-16T23:53:25.368Z",
+  "updatedAt": "2026-04-14T11:06:47.441Z",
   "createdAt": "2026-03-13T09:48:23.367Z",
   "id": "NJ6YNksnJvuKaSNj",
   "name": "agendar",
@@ -86,7 +86,8 @@
           "value": {
             "id calendar": "={{ $json.id }}",
             "numero": "={{ $('When Executed by Another Workflow').item.json.numero }}",
-            "fecha": "={{ $json.start.dateTime }}"
+            "fecha": "={{ $json.start.dateTime }}",
+            "recordatorio_enviado": "False"
           },
           "matchingColumns": [],
           "schema": [
@@ -111,6 +112,16 @@
             {
               "id": "fecha",
               "displayName": "fecha",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "recordatorio_enviado",
+              "displayName": "recordatorio_enviado",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -210,8 +221,23 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {},
-  "versionId": "e4693908-cb92-40cf-9c9e-76cf6eff7624",
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "fecha": "2026-04-15",
+          "horario": "09:00",
+          "nombre completo": "Fernando Sáenz",
+          "email": "fersaenz181@gmail.com",
+          "numero": "601760636"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "512b19e8-10a3-4f97-be58-e0def400d9e5",
   "activeVersionId": "e4693908-cb92-40cf-9c9e-76cf6eff7624",
   "triggerCount": 0,
   "shared": [
