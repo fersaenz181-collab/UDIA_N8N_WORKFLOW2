@@ -1,0 +1,31 @@
+{
+  "updatedAt": "2026-04-14T10:00:10.023Z",
+  "createdAt": "2026-04-14T10:00:10.023Z",
+  "id": "FUUf0AiblSaK2mW1",
+  "name": "datos de pagina web a gmail",
+  "active": false,
+  "isArchived": false,
+  "nodes": [],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "38192fe4-d6ee-4ea5-8945-44fdc7c620b3",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-04-14T10:00:10.026Z",
+      "createdAt": "2026-04-14T10:00:10.026Z",
+      "role": "workflow:owner",
+      "workflowId": "FUUf0AiblSaK2mW1",
+      "projectId": "MmvYKa71ccIMyArc"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
