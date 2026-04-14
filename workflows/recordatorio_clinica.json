@@ -1,0 +1,680 @@
+{
+  "updatedAt": "2026-04-14T16:29:47.503Z",
+  "createdAt": "2026-04-14T10:20:04.571Z",
+  "id": "M16cYhuUSYCxHjP0",
+  "name": "recordatorio clinica",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $json.fecha }}",
+        "format": "custom",
+        "customFormat": "=dd/MM/yyyy 'a las' HH:mm",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        320,
+        -32
+      ],
+      "id": "9afa43d4-fdd6-4d98-9b85-1ba08e56e8d6",
+      "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "af96c919-aa9f-4310-9112-29cda87f765e",
+              "leftValue": "={{ new Date($json.fecha) }}",
+              "rightValue": "={{ new Date() }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "after"
+              }
+            },
+            {
+              "id": "489a49eb-2281-4e31-86fd-7f30d66535d0",
+              "leftValue": "={{ new Date($json.fecha) }}",
+              "rightValue": "={{ new Date(new Date().getTime() + 24 * 60 * 60 * 1000) }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "before"
+              }
+            },
+            {
+              "id": "46234b5c-067f-44c2-bbe0-649b4afb20f9",
+              "leftValue": "={{ $json.recordatorio_enviado }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        80,
+        -16
+      ],
+      "id": "1651cb52-da50-4505-9c1a-8a8198f25da8",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 1
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -384,
+        -16
+      ],
+      "id": "a0e38e19-ad34-4857-832f-cc5b5ffa0a52",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1uo2AOXad-mQ3kNGHehBFcMTnb1-J3CcORF76vnk3qUc",
+          "mode": "list",
+          "cachedResultName": "base de datos clinica",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uo2AOXad-mQ3kNGHehBFcMTnb1-J3CcORF76vnk3qUc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uo2AOXad-mQ3kNGHehBFcMTnb1-J3CcORF76vnk3qUc/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -128,
+        -16
+      ],
+      "id": "c16cd1fa-58bc-41ef-a79f-41197d68e4fe",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "S03et5OVpjcoBnA0",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1uo2AOXad-mQ3kNGHehBFcMTnb1-J3CcORF76vnk3qUc",
+          "mode": "list",
+          "cachedResultName": "base de datos clinica",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uo2AOXad-mQ3kNGHehBFcMTnb1-J3CcORF76vnk3qUc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uo2AOXad-mQ3kNGHehBFcMTnb1-J3CcORF76vnk3qUc/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "fecha": "={{ $('Get row(s) in sheet').item.json.fecha }}",
+            "recordatorio_enviado": "true"
+          },
+          "matchingColumns": [
+            "fecha"
+          ],
+          "schema": [
+            {
+              "id": "numero",
+              "displayName": "numero",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "id calendar",
+              "displayName": "id calendar",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "fecha",
+              "displayName": "fecha",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "recordatorio_enviado",
+              "displayName": "recordatorio_enviado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        592,
+        -32
+      ],
+      "id": "f89dd8c8-ef3c-4042-ba13-8c4c4f8e0cf0",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "S03et5OVpjcoBnA0",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        272,
+        80
+      ],
+      "id": "b549a5be-06be-48a2-9916-b8840317b65a",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "chatId": "1437217337",
+        "text": "=Hola, le recordamos la cita en la barberia mañana dia  {{ $('Date & Time').item.json.formattedDate }} (calle alfonso VI)",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        800,
+        -32
+      ],
+      "id": "abdbcdc5-3442-4166-bbfc-1f7ebc231230",
+      "name": "Send a text message",
+      "webhookId": "2011881b-fe8f-4542-8d23-9e7e8057b3b9",
+      "credentials": {
+        "telegramApi": {
+          "id": "1nzQW7gGvoGma654",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "edd6f80f-658a-4a4b-a693-261b1c3d3298",
+  "activeVersionId": "edd6f80f-658a-4a4b-a693-261b1c3d3298",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2026-04-14T10:20:04.575Z",
+      "createdAt": "2026-04-14T10:20:04.575Z",
+      "role": "workflow:owner",
+      "workflowId": "M16cYhuUSYCxHjP0",
+      "projectId": "MmvYKa71ccIMyArc"
+    }
+  ],
+  "activeVersion": {
+    "updatedAt": "2026-04-14T16:29:50.000Z",
+    "createdAt": "2026-04-14T16:29:47.504Z",
+    "versionId": "edd6f80f-658a-4a4b-a693-261b1c3d3298",
+    "workflowId": "M16cYhuUSYCxHjP0",
+    "nodes": [
+      {
+        "parameters": {
+          "operation": "formatDate",
+          "date": "={{ $json.fecha }}",
+          "format": "custom",
+          "customFormat": "=dd/MM/yyyy 'a las' HH:mm",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.dateTime",
+        "typeVersion": 2,
+        "position": [
+          320,
+          -32
+        ],
+        "id": "9afa43d4-fdd6-4d98-9b85-1ba08e56e8d6",
+        "name": "Date & Time"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "af96c919-aa9f-4310-9112-29cda87f765e",
+                "leftValue": "={{ new Date($json.fecha) }}",
+                "rightValue": "={{ new Date() }}",
+                "operator": {
+                  "type": "dateTime",
+                  "operation": "after"
+                }
+              },
+              {
+                "id": "489a49eb-2281-4e31-86fd-7f30d66535d0",
+                "leftValue": "={{ new Date($json.fecha) }}",
+                "rightValue": "={{ new Date(new Date().getTime() + 24 * 60 * 60 * 1000) }}",
+                "operator": {
+                  "type": "dateTime",
+                  "operation": "before"
+                }
+              },
+              {
+                "id": "46234b5c-067f-44c2-bbe0-649b4afb20f9",
+                "leftValue": "={{ $json.recordatorio_enviado }}",
+                "rightValue": false,
+                "operator": {
+                  "type": "boolean",
+                  "operation": "equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          80,
+          -16
+        ],
+        "id": "1651cb52-da50-4505-9c1a-8a8198f25da8",
+        "name": "If"
+      },
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "minutes",
+                "minutesInterval": 1
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.3,
+        "position": [
+          -384,
+          -16
+        ],
+        "id": "a0e38e19-ad34-4857-832f-cc5b5ffa0a52",
+        "name": "Schedule Trigger"
+      },
+      {
+        "parameters": {
+          "documentId": {
+            "__rl": true,
+            "value": "1uo2AOXad-mQ3kNGHehBFcMTnb1-J3CcORF76vnk3qUc",
+            "mode": "list",
+            "cachedResultName": "base de datos clinica",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uo2AOXad-mQ3kNGHehBFcMTnb1-J3CcORF76vnk3qUc/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": "gid=0",
+            "mode": "list",
+            "cachedResultName": "Hoja 1",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uo2AOXad-mQ3kNGHehBFcMTnb1-J3CcORF76vnk3qUc/edit#gid=0"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          -128,
+          -16
+        ],
+        "id": "c16cd1fa-58bc-41ef-a79f-41197d68e4fe",
+        "name": "Get row(s) in sheet",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "S03et5OVpjcoBnA0",
+            "name": "Google Sheets account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "documentId": {
+            "__rl": true,
+            "value": "1uo2AOXad-mQ3kNGHehBFcMTnb1-J3CcORF76vnk3qUc",
+            "mode": "list",
+            "cachedResultName": "base de datos clinica",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uo2AOXad-mQ3kNGHehBFcMTnb1-J3CcORF76vnk3qUc/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": "gid=0",
+            "mode": "list",
+            "cachedResultName": "Hoja 1",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uo2AOXad-mQ3kNGHehBFcMTnb1-J3CcORF76vnk3qUc/edit#gid=0"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "fecha": "={{ $('Get row(s) in sheet').item.json.fecha }}",
+              "recordatorio_enviado": "true"
+            },
+            "matchingColumns": [
+              "fecha"
+            ],
+            "schema": [
+              {
+                "id": "numero",
+                "displayName": "numero",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "id calendar",
+                "displayName": "id calendar",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "fecha",
+                "displayName": "fecha",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "recordatorio_enviado",
+                "displayName": "recordatorio_enviado",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "row_number",
+                "displayName": "row_number",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true,
+                "readOnly": true,
+                "removed": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          592,
+          -32
+        ],
+        "id": "f89dd8c8-ef3c-4042-ba13-8c4c4f8e0cf0",
+        "name": "Update row in sheet",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "S03et5OVpjcoBnA0",
+            "name": "Google Sheets account 2"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          272,
+          80
+        ],
+        "id": "b549a5be-06be-48a2-9916-b8840317b65a",
+        "name": "No Operation, do nothing"
+      },
+      {
+        "parameters": {
+          "chatId": "1437217337",
+          "text": "=Hola, le recordamos la cita en la barberia mañana dia  {{ $('Date & Time').item.json.formattedDate }} (calle alfonso VI)",
+          "additionalFields": {
+            "appendAttribution": false
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          800,
+          -32
+        ],
+        "id": "abdbcdc5-3442-4166-bbfc-1f7ebc231230",
+        "name": "Send a text message",
+        "webhookId": "2011881b-fe8f-4542-8d23-9e7e8057b3b9",
+        "credentials": {
+          "telegramApi": {
+            "id": "1nzQW7gGvoGma654",
+            "name": "Telegram account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Date & Time": {
+        "main": [
+          [
+            {
+              "node": "Update row in sheet",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If": {
+        "main": [
+          [
+            {
+              "node": "Date & Time",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "No Operation, do nothing",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "Get row(s) in sheet",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get row(s) in sheet": {
+        "main": [
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Update row in sheet": {
+        "main": [
+          [
+            {
+              "node": "Send a text message",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Fernando  Saenz",
+    "name": "Version edd6f80f",
+    "description": "",
+    "autosaved": true
+  },
+  "tags": []
+}
