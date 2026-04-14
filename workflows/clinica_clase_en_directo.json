@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-04-13T18:29:32.021Z",
+  "updatedAt": "2026-04-14T16:28:07.493Z",
   "createdAt": "2026-03-12T12:11:34.562Z",
   "id": "NjeA1GsX7oK7fTk4",
   "name": "clinica clase en directo",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
@@ -13,8 +13,8 @@
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.4,
       "position": [
-        0,
-        0
+        -432,
+        224
       ],
       "id": "5ae92211-849f-464f-aaea-b9c1b348209b",
       "name": "When chat message received",
@@ -22,6 +22,8 @@
     },
     {
       "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }}",
         "options": {
           "systemMessage": "=# ROL\n\nEres miguel el asistente virtual de la clinica estetica\nbora bora, llevas mas de 10 años ayudando en la atencion al\npublico de la clinica eres util e inteligente\n\n# CONTEXTO\n\nVas a responder todos los mensajes de los clientes\nentrantes y vas a intentar agendar a todos los leads que\nbusquen un turno en la clinica\n\nNuestros servicios son, rinoplastia y botox ambos tienen un\nprecio de 1000 USD y cada uno solo 500 USD\n\n# TAREA\n\nTu tarea consiste en entender la conversacion, los mensajes\ndel usuario y activar las funciones necesarias para tener\nuna conversacion fluida y natural y que el cliente se quede\nsatisfecho\n\n# Proceso de agendacion\n\n1. Cuando el cliente te diga que quiere agendar un cita o\nle interesa agendar una cita, debes preguntar por el dia\nque quiere la cita\n2. Debes activar la herramienta disponibilidad enviando a\nla herramienta la fecha en este formato yyyy-mm-dd\n3. Envíale al usuario todos los horarios disponibles en ese\ndía que dijo que quería la cita\n4. Cuando el cliente diga la hora que quiere, debes pedirle\nque te diga su email, nombre completo y número de telefono\n5. Activa la herramienta citas enviando la fecha en este\nformato yyyy-mm-dd y la hora en este formato 00:00:00\n6. Enviarle un mensaje al usuario que se ha registrado la\ncita y que lo esperamos\n\n## Herramienta cancelar :\n\nDebes activar esta herramienta para cuando el usuario desea\nre agendar una cita o cancelar.\n\nPediras el numero de telefono y con el podras encontrar las citas que tiene agendadas el usuario\n\nCuando el cliente quiera cancelar una cita consulta las citas que sean mas tarde que este momento utiliza {{ $now }} para saber que momento es ahora. Una vez visto las citas que tiene el cliente mas tarde que {{ $now }} dile las citas que tiene asignadas a su numero de telefono para que decida el cual de ellas eliminar\n\nEn caso de que quiera cancelar debes activar la herramienta\ny preguntarle si desea elegir un horario nuevo, de ser así\ndebes activar de cero el procedimiento de agendacion\n\n# NOTAS GENERALES\n- La fecha de hoy es: {{ $now }} y estamos en el año 2026 siempre\n\n- Si te dicen mañana, el próximo lunes o se refieren de esa forma a una fecha específica, como por ejemplo \"el miercoles\" utiliza: {{ $now }} para saber cual es el día de hoy y calcula cual es la fecha más próxima a la que se refiere el usuario, es decir si te dicen el próximo lunes, debes interpretar que es lunes más cerca de la fecha de ahora\n\n- Este es un calendario anual de todos los primeros días del año\n| Mes        | Día de la semana |\n| ---------- | ---------------- |\n| Enero      | Jueves           |\n| Febrero    | Domingo          |\n| Marzo      | Domingo          |\n| Abril      | Miércoles        |\n| Mayo       | Viernes          |\n| Junio      | Lunes            |\n| Julio      | Miércoles        |\n| Agosto     | Sábado           |\n| Septiembre | Martes           |\n| Octubre    | Jueves           |\n| Noviembre  | Domingo          |\n| Diciembre  | Martes           |\n\n\n# ESTRUCTURA DE SALIDA\n\nEnvia mensajes calidos, respetuosos y formales"
         }
@@ -29,8 +31,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        416,
-        0
+        -24,
+        448
       ],
       "id": "6873667d-497c-4f35-ada6-79b9ad55b1dd",
       "name": "AI Agent"
@@ -49,8 +51,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.3,
       "position": [
-        224,
-        224
+        -208,
+        672
       ],
       "id": "8e21e4d6-584c-4112-adde-b2c56b9f4480",
       "name": "OpenAI Chat Model",
@@ -68,8 +70,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.3,
       "position": [
-        -64,
-        896
+        -432,
+        1328
       ],
       "id": "b6f8342c-b749-4450-b059-ac2f560e5075",
       "name": "Postgres Chat Memory",
@@ -93,23 +95,12 @@
         "workflowInputs": {
           "mappingMode": "defineBelow",
           "value": {
-            "fecha": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fecha', `La fecha debe generarse únicamente si el usuario menciona explícitamente un día y una hora.\n\nFormato obligatorio:\nYYYY-MM-DDTHH:mm:ss+01:00\n\nZona horaria fija:\n+01:00 (Madrid)\n\nEjemplo válido:\n2026-03-27T10:00:00+01:00\n\nReglas estrictas:\n\n* No inventar fechas ni horas.\n* Solo generar la fecha si el usuario menciona claramente día y hora.\n* Si el usuario no especifica la fecha exacta de la cita, devolver NULL.\n* No estimar fechas como \"mañana\", \"próxima cita\", \"la última\", etc.\n* No generar texto adicional, solo la fecha en el formato indicado o NULL.\n`, 'string') }}",
             "numero": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('numero', ``, 'string') }}"
           },
           "matchingColumns": [
             "fecha"
           ],
           "schema": [
-            {
-              "id": "fecha",
-              "displayName": "fecha",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
             {
               "id": "numero",
               "displayName": "numero",
@@ -128,8 +119,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.2,
       "position": [
-        480,
-        224
+        48,
+        672
       ],
       "id": "1fe2e0e1-2ad2-4053-9d89-e987af1a0717",
       "name": "cancelar"
@@ -213,8 +204,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.2,
       "position": [
-        608,
-        224
+        176,
+        672
       ],
       "id": "2fb45a10-a59f-4b39-a1dd-77bddf705628",
       "name": "agendar"
@@ -256,21 +247,23 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.2,
       "position": [
-        736,
-        224
+        304,
+        672
       ],
       "id": "4209b2e0-5436-4b82-be66-c228c094978d",
       "name": "disponibilidad"
     },
     {
       "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
         "contextWindowLength": 10
       },
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "typeVersion": 1.3,
       "position": [
-        352,
-        224
+        -80,
+        672
       ],
       "id": "2fc638ce-75cf-4f7c-8d60-5a57159dc8bd",
       "name": "Simple Memory"
@@ -308,8 +301,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        1456,
-        528
+        -208,
+        880
       ],
       "id": "91ee07c4-d4d6-4e8c-93b2-65881e7a6a6b",
       "name": "HTTP Request"
@@ -322,8 +315,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1200,
-        528
+        -432,
+        880
       ],
       "id": "4008e550-2acf-4c16-8272-1fecb8b7a390",
       "name": "Code in JavaScript"
@@ -331,23 +324,47 @@
     {
       "parameters": {
         "updates": [
-          "messages"
+          "message"
         ],
-        "options": {}
+        "additionalFields": {}
       },
-      "type": "n8n-nodes-base.whatsAppTrigger",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
       "position": [
-        48,
-        480
+        -416,
+        448
       ],
-      "id": "e38b59af-4424-46c6-8384-e99572691709",
-      "name": "WhatsApp Trigger",
-      "webhookId": "7bc7ea57-9d83-464a-b028-89bc036372c0",
+      "id": "170eb3f5-068e-45c6-b507-a14be46d6cdf",
+      "name": "Telegram Trigger",
+      "webhookId": "dac0a016-67e7-4d94-a079-f240b97f4232",
       "credentials": {
-        "whatsAppTriggerApi": {
-          "id": "9IohpIXVA4ePP48e",
-          "name": "WhatsApp OAuth account"
+        "telegramApi": {
+          "id": "1nzQW7gGvoGma654",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "1437217337",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        496,
+        448
+      ],
+      "id": "f9225bc7-c166-45e0-853c-4eab4d9a9789",
+      "name": "Send a text message",
+      "webhookId": "2011881b-fe8f-4542-8d23-9e7e8057b3b9",
+      "credentials": {
+        "telegramApi": {
+          "id": "1nzQW7gGvoGma654",
+          "name": "Telegram account"
         }
       }
     }
@@ -355,13 +372,7 @@
   "connections": {
     "When chat message received": {
       "main": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "OpenAI Chat Model": {
@@ -434,6 +445,28 @@
           }
         ]
       ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -445,10 +478,37 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {},
-  "versionId": "8870eb24-9418-4c5b-a4b1-4909d9f770e9",
-  "activeVersionId": null,
-  "triggerCount": 0,
+  "pinData": {
+    "Telegram Trigger": [
+      {
+        "json": {
+          "update_id": 127543462,
+          "message": {
+            "message_id": 82,
+            "from": {
+              "id": 1437217337,
+              "is_bot": false,
+              "first_name": "Fer",
+              "language_code": "es"
+            },
+            "chat": {
+              "id": 1437217337,
+              "first_name": "Fer",
+              "type": "private"
+            },
+            "date": 1776183961,
+            "text": "holaa"
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "4db4466c-b231-4914-bca6-bc20c93b98ba",
+  "activeVersionId": "4db4466c-b231-4914-bca6-bc20c93b98ba",
+  "triggerCount": 2,
   "shared": [
     {
       "updatedAt": "2026-03-12T12:11:34.565Z",
@@ -458,6 +518,479 @@
       "projectId": "MmvYKa71ccIMyArc"
     }
   ],
-  "activeVersion": null,
+  "activeVersion": {
+    "updatedAt": "2026-04-14T16:28:18.000Z",
+    "createdAt": "2026-04-14T16:27:59.307Z",
+    "versionId": "4db4466c-b231-4914-bca6-bc20c93b98ba",
+    "workflowId": "NjeA1GsX7oK7fTk4",
+    "nodes": [
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+        "typeVersion": 1.4,
+        "position": [
+          -432,
+          224
+        ],
+        "id": "5ae92211-849f-464f-aaea-b9c1b348209b",
+        "name": "When chat message received",
+        "webhookId": "1d3bc19c-cabf-4abd-a445-228c3df75865"
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "={{ $json.message.text }}",
+          "options": {
+            "systemMessage": "=# ROL\n\nEres miguel el asistente virtual de la clinica estetica\nbora bora, llevas mas de 10 años ayudando en la atencion al\npublico de la clinica eres util e inteligente\n\n# CONTEXTO\n\nVas a responder todos los mensajes de los clientes\nentrantes y vas a intentar agendar a todos los leads que\nbusquen un turno en la clinica\n\nNuestros servicios son, rinoplastia y botox ambos tienen un\nprecio de 1000 USD y cada uno solo 500 USD\n\n# TAREA\n\nTu tarea consiste en entender la conversacion, los mensajes\ndel usuario y activar las funciones necesarias para tener\nuna conversacion fluida y natural y que el cliente se quede\nsatisfecho\n\n# Proceso de agendacion\n\n1. Cuando el cliente te diga que quiere agendar un cita o\nle interesa agendar una cita, debes preguntar por el dia\nque quiere la cita\n2. Debes activar la herramienta disponibilidad enviando a\nla herramienta la fecha en este formato yyyy-mm-dd\n3. Envíale al usuario todos los horarios disponibles en ese\ndía que dijo que quería la cita\n4. Cuando el cliente diga la hora que quiere, debes pedirle\nque te diga su email, nombre completo y número de telefono\n5. Activa la herramienta citas enviando la fecha en este\nformato yyyy-mm-dd y la hora en este formato 00:00:00\n6. Enviarle un mensaje al usuario que se ha registrado la\ncita y que lo esperamos\n\n## Herramienta cancelar :\n\nDebes activar esta herramienta para cuando el usuario desea\nre agendar una cita o cancelar.\n\nPediras el numero de telefono y con el podras encontrar las citas que tiene agendadas el usuario\n\nCuando el cliente quiera cancelar una cita consulta las citas que sean mas tarde que este momento utiliza {{ $now }} para saber que momento es ahora. Una vez visto las citas que tiene el cliente mas tarde que {{ $now }} dile las citas que tiene asignadas a su numero de telefono para que decida el cual de ellas eliminar\n\nEn caso de que quiera cancelar debes activar la herramienta\ny preguntarle si desea elegir un horario nuevo, de ser así\ndebes activar de cero el procedimiento de agendacion\n\n# NOTAS GENERALES\n- La fecha de hoy es: {{ $now }} y estamos en el año 2026 siempre\n\n- Si te dicen mañana, el próximo lunes o se refieren de esa forma a una fecha específica, como por ejemplo \"el miercoles\" utiliza: {{ $now }} para saber cual es el día de hoy y calcula cual es la fecha más próxima a la que se refiere el usuario, es decir si te dicen el próximo lunes, debes interpretar que es lunes más cerca de la fecha de ahora\n\n- Este es un calendario anual de todos los primeros días del año\n| Mes        | Día de la semana |\n| ---------- | ---------------- |\n| Enero      | Jueves           |\n| Febrero    | Domingo          |\n| Marzo      | Domingo          |\n| Abril      | Miércoles        |\n| Mayo       | Viernes          |\n| Junio      | Lunes            |\n| Julio      | Miércoles        |\n| Agosto     | Sábado           |\n| Septiembre | Martes           |\n| Octubre    | Jueves           |\n| Noviembre  | Domingo          |\n| Diciembre  | Martes           |\n\n\n# ESTRUCTURA DE SALIDA\n\nEnvia mensajes calidos, respetuosos y formales"
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 3.1,
+        "position": [
+          -24,
+          448
+        ],
+        "id": "6873667d-497c-4f35-ada6-79b9ad55b1dd",
+        "name": "AI Agent"
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-4.1-mini",
+            "mode": "list",
+            "cachedResultName": "gpt-4.1-mini"
+          },
+          "responsesApiEnabled": false,
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.3,
+        "position": [
+          -208,
+          672
+        ],
+        "id": "8e21e4d6-584c-4112-adde-b2c56b9f4480",
+        "name": "OpenAI Chat Model",
+        "credentials": {
+          "openAiApi": {
+            "id": "N2JeEF92nbocT2XP",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "tableName": "Prueba_udia_clinica"
+        },
+        "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+        "typeVersion": 1.3,
+        "position": [
+          -432,
+          1328
+        ],
+        "id": "b6f8342c-b749-4450-b059-ac2f560e5075",
+        "name": "Postgres Chat Memory",
+        "credentials": {
+          "postgres": {
+            "id": "PRcSKf5wuH2xgeU4",
+            "name": "Postgres account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "description": "Esta herramienta sirve para cancelar la agenda del usuario",
+          "workflowId": {
+            "__rl": true,
+            "value": "wn3BlH0I4lcEsb0j",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/wn3BlH0I4lcEsb0j",
+            "cachedResultName": "cancelar"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "numero": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('numero', ``, 'string') }}"
+            },
+            "matchingColumns": [
+              "fecha"
+            ],
+            "schema": [
+              {
+                "id": "numero",
+                "displayName": "numero",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+        "typeVersion": 2.2,
+        "position": [
+          48,
+          672
+        ],
+        "id": "1fe2e0e1-2ad2-4053-9d89-e987af1a0717",
+        "name": "cancelar"
+      },
+      {
+        "parameters": {
+          "description": "Esta herramienta se encarga de agendar al usuario en el calendario",
+          "workflowId": {
+            "__rl": true,
+            "value": "NJ6YNksnJvuKaSNj",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/NJ6YNksnJvuKaSNj",
+            "cachedResultName": "agendar"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "fecha": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fecha', `la fecha que elige el usuario para agendar en formato yyyy-mm-dd`, 'string') }}",
+              "horario": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('horario', `el horario que eligio el usuario en formato 00:00`, 'string') }}",
+              "nombre completo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('nombre_completo', `nombre completo del usuario`, 'string') }}",
+              "email": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('email', `email del usuario`, 'string') }}",
+              "numero": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('numero', `numero de telefono del usuario`, 'string') }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "fecha",
+                "displayName": "fecha",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "horario",
+                "displayName": "horario",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "nombre completo",
+                "displayName": "nombre completo",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "email",
+                "displayName": "email",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "numero",
+                "displayName": "numero",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+        "typeVersion": 2.2,
+        "position": [
+          176,
+          672
+        ],
+        "id": "2fb45a10-a59f-4b39-a1dd-77bddf705628",
+        "name": "agendar"
+      },
+      {
+        "parameters": {
+          "description": "Esta herramienta sirve para ver la disponibilidad en el calendario",
+          "workflowId": {
+            "__rl": true,
+            "value": "NXGOaWHN5onyWLmL",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/NXGOaWHN5onyWLmL",
+            "cachedResultName": "disponibilidad"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "fecha": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fecha', `la fecha que elige el usuario para agendar en formato YYYY-MM-DD`, 'string') }}"
+            },
+            "matchingColumns": [
+              "fecha"
+            ],
+            "schema": [
+              {
+                "id": "fecha",
+                "displayName": "fecha",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+        "typeVersion": 2.2,
+        "position": [
+          304,
+          672
+        ],
+        "id": "4209b2e0-5436-4b82-be66-c228c094978d",
+        "name": "disponibilidad"
+      },
+      {
+        "parameters": {
+          "sessionIdType": "customKey",
+          "sessionKey": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+          "contextWindowLength": 10
+        },
+        "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+        "typeVersion": 1.3,
+        "position": [
+          -80,
+          672
+        ],
+        "id": "2fc638ce-75cf-4f7c-8d60-5a57159dc8bd",
+        "name": "Simple Memory"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://graph.facebook.com/v22.0/923520874187742/messages",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Authorization",
+                "value": "Bearer EAAMuiiniDzUBQ5WI5UZAe3DpopHiyr36rLsrmsciZA0RniFk0abi3cBn0GbtPfDUZBUM48mvpmhdwtIwdAADULJSNey8Xa5ZChmGZC1ZAje5CqzFIdPv16fGmmX9BiRYPV1RdIHSCoXGSdIwNDD0qpvU1P9g7XImsUmZBmwNOlowZCxBSZBzWgc1sZCQZCZCnC4ZBApj6otr79tiq7WJgtnajkujMl8ZCG0wA2wBQTWhW4YVvIqCZCcGjDPkv41bzrN6NzjcEvNDLmvk6O9toZCEmod1W5Dva7JV"
+              }
+            ]
+          },
+          "sendBody": true,
+          "specifyBody": "=json",
+          "bodyParameters": {
+            "parameters": [
+              {}
+            ]
+          },
+          "jsonBody": "={{ $json }}",
+          "options": {
+            "response": {
+              "response": {
+                "fullResponse": true,
+                "responseFormat": "text"
+              }
+            }
+          }
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.4,
+        "position": [
+          -208,
+          880
+        ],
+        "id": "91ee07c4-d4d6-4e8c-93b2-65881e7a6a6b",
+        "name": "HTTP Request"
+      },
+      {
+        "parameters": {
+          "mode": "runOnceForEachItem",
+          "jsCode": "return {\n  json: {\n    messaging_product: \"whatsapp\",\n    to: $node[\"WhatsApp Trigger\"].json.contacts[0].wa_id,\n    type: \"text\",\n    text: {\n      body: $json.output\n    }\n  }\n};"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -432,
+          880
+        ],
+        "id": "4008e550-2acf-4c16-8272-1fecb8b7a390",
+        "name": "Code in JavaScript"
+      },
+      {
+        "parameters": {
+          "updates": [
+            "message"
+          ],
+          "additionalFields": {}
+        },
+        "type": "n8n-nodes-base.telegramTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          -416,
+          448
+        ],
+        "id": "170eb3f5-068e-45c6-b507-a14be46d6cdf",
+        "name": "Telegram Trigger",
+        "webhookId": "dac0a016-67e7-4d94-a079-f240b97f4232",
+        "credentials": {
+          "telegramApi": {
+            "id": "1nzQW7gGvoGma654",
+            "name": "Telegram account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "chatId": "1437217337",
+          "text": "={{ $json.output }}",
+          "additionalFields": {
+            "appendAttribution": false
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          496,
+          448
+        ],
+        "id": "f9225bc7-c166-45e0-853c-4eab4d9a9789",
+        "name": "Send a text message",
+        "webhookId": "2011881b-fe8f-4542-8d23-9e7e8057b3b9",
+        "credentials": {
+          "telegramApi": {
+            "id": "1nzQW7gGvoGma654",
+            "name": "Telegram account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "When chat message received": {
+        "main": [
+          []
+        ]
+      },
+      "OpenAI Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Postgres Chat Memory": {
+        "ai_memory": [
+          []
+        ]
+      },
+      "cancelar": {
+        "ai_tool": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "agendar": {
+        "ai_tool": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "disponibilidad": {
+        "ai_tool": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Simple Memory": {
+        "ai_memory": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code in JavaScript": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "AI Agent": {
+        "main": [
+          [
+            {
+              "node": "Send a text message",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Telegram Trigger": {
+        "main": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Fernando  Saenz",
+    "name": "Version 4db4466c",
+    "description": "",
+    "autosaved": true
+  },
   "tags": []
 }
