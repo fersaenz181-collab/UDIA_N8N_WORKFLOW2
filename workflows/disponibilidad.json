@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-16T17:08:12.166Z",
+  "updatedAt": "2026-04-16T09:55:19.460Z",
   "createdAt": "2026-03-13T09:48:17.248Z",
   "id": "NXGOaWHN5onyWLmL",
   "name": "disponibilidad",
@@ -21,8 +21,8 @@
       "name": "When Executed by Another Workflow",
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "position": [
-        256,
-        336
+        0,
+        320
       ],
       "alwaysOutputData": false
     },
@@ -36,71 +36,11 @@
       "type": "n8n-nodes-base.dateTime",
       "typeVersion": 2,
       "position": [
-        480,
-        336
+        272,
+        320
       ],
       "id": "7e3da813-3c69-4c7e-b323-b162b3f1bbe1",
       "name": "Date & Time"
-    },
-    {
-      "parameters": {
-        "resource": "calendar",
-        "calendar": {
-          "__rl": true,
-          "value": "fersaenz181@gmail.com",
-          "mode": "list",
-          "cachedResultName": "clinican8n"
-        },
-        "timeMin": "={{ $json.formattedDate }}T09:00:00",
-        "timeMax": "={{ $json.formattedDate }}T17:00:00",
-        "options": {
-          "outputFormat": "bookedSlots",
-          "timezone": {
-            "__rl": true,
-            "value": "Europe/Madrid",
-            "mode": "list",
-            "cachedResultName": "Europe/Madrid"
-          }
-        }
-      },
-      "type": "n8n-nodes-base.googleCalendar",
-      "typeVersion": 1.3,
-      "position": [
-        112,
-        656
-      ],
-      "id": "e758bc52-6921-44e4-b467-f6ae679de36a",
-      "name": "Get availability in a calendar",
-      "alwaysOutputData": true,
-      "credentials": {
-        "googleCalendarOAuth2Api": {
-          "id": "pjBvS4mIslDHoJiA",
-          "name": "Google Calendar account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "fieldsToAggregate": {
-          "fieldToAggregate": [
-            {
-              "fieldToAggregate": "start"
-            },
-            {
-              "fieldToAggregate": "end"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.aggregate",
-      "typeVersion": 1,
-      "position": [
-        288,
-        656
-      ],
-      "id": "717bed3a-055e-4fdc-b8e9-b157886bee4e",
-      "name": "Aggregate"
     },
     {
       "parameters": {
@@ -113,7 +53,7 @@
         "responses": {
           "values": [
             {
-              "content": "=Devuelveme los espacios disponibles en el calendario el {{ $json.formattedDate }} en espacios de 60 minutos. El out por ejemplo debe ser asi:\n\n9:00\n\n11:00\n\n13:00\n\n15:00"
+              "content": "=Devuelveme los espacios disponibles en el calendario el {{ $('Date & Time').item.json.formattedDate }} en espacios de 60 minutos. El out por ejemplo debe ser asi:\n\n9:00\n\n11:00\n\n13:00\n\n15:00"
             },
             {
               "role": "system",
@@ -127,8 +67,8 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 2.1,
       "position": [
-        704,
-        336
+        1024,
+        368
       ],
       "id": "5b73f64e-bb9a-435f-8735-99f3b4d0b254",
       "name": "Message a model",
@@ -153,8 +93,8 @@
       "type": "n8n-nodes-base.googleCalendarTool",
       "typeVersion": 1.3,
       "position": [
-        776,
-        560
+        784,
+        736
       ],
       "id": "786aeb7f-54f1-4f4d-ae9a-85af5b4ea381",
       "name": "Get many events in Google Calendar",
@@ -164,6 +104,45 @@
           "name": "Google Calendar account"
         }
       }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "fersaenz181@gmail.com",
+          "mode": "list",
+          "cachedResultName": "clinican8n"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        544,
+        320
+      ],
+      "id": "73f178ee-5857-45b7-afd4-d03a5a83b378",
+      "name": "Get many events",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "pjBvS4mIslDHoJiA",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const events = items;\n\nconst slots = {};\n\nfor (const item of events) {\n  const start = item.json.start.dateTime;\n\n  const date = new Date(start);\n  const hour = date.getHours().toString().padStart(2, '0') + \":00\";\n\n  if (!slots[hour]) {\n    slots[hour] = 0;\n  }\n\n  slots[hour]++;\n}\n\nconst horasDelDia = [\n  \"09:00\",\"10:00\",\"11:00\",\"12:00\",\n  \"13:00\",\"14:00\",\"15:00\",\"16:00\"\n];\n\nconst disponibilidad = [];\n\nfor (const hora of horasDelDia) {\n  const citas = slots[hora] || 0;\n\n  if (citas < 2) {\n    disponibilidad.push({\n      hora,\n      citas\n    });\n  }\n}\n\nreturn disponibilidad.map(h => ({ json: h }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        816,
+        320
+      ],
+      "id": "2f2ea1f7-bb51-45fc-996a-48bb4877fb76",
+      "name": "Code in JavaScript"
     }
   ],
   "connections": {
@@ -182,18 +161,7 @@
       "main": [
         [
           {
-            "node": "Message a model",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get availability in a calendar": {
-      "main": [
-        [
-          {
-            "node": "Aggregate",
+            "node": "Get many events",
             "type": "main",
             "index": 0
           }
@@ -202,27 +170,49 @@
     },
     "Get many events in Google Calendar": {
       "ai_tool": [
+        []
+      ]
+    },
+    "Get many events": {
+      "main": [
         [
           {
-            "node": "Message a model",
-            "type": "ai_tool",
+            "node": "Code in JavaScript",
+            "type": "main",
             "index": 0
           }
         ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        []
       ]
     }
   },
   "settings": {
     "executionOrder": "v1",
-    "availableInMCP": false
+    "availableInMCP": false,
+    "binaryMode": "separate"
   },
   "staticData": null,
   "meta": {
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "cb521958-785f-4cbc-974b-53acd949bedf",
-  "activeVersionId": "fdbe4617-e4da-4984-bfa8-7b0c22a7597f",
+  "versionId": "046e6ac9-67e5-4ee5-bab8-aa18b0689f68",
+  "activeVersionId": "046e6ac9-67e5-4ee5-bab8-aa18b0689f68",
   "triggerCount": 0,
   "shared": [
     {
@@ -234,9 +224,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2026-03-16T16:14:34.000Z",
-    "createdAt": "2026-03-16T16:14:25.453Z",
-    "versionId": "fdbe4617-e4da-4984-bfa8-7b0c22a7597f",
+    "updatedAt": "2026-04-16T09:55:21.000Z",
+    "createdAt": "2026-04-16T09:55:19.463Z",
+    "versionId": "046e6ac9-67e5-4ee5-bab8-aa18b0689f68",
     "workflowId": "NXGOaWHN5onyWLmL",
     "nodes": [
       {
@@ -254,8 +244,8 @@
         "name": "When Executed by Another Workflow",
         "type": "n8n-nodes-base.executeWorkflowTrigger",
         "position": [
-          256,
-          336
+          0,
+          320
         ],
         "alwaysOutputData": false
       },
@@ -269,71 +259,11 @@
         "type": "n8n-nodes-base.dateTime",
         "typeVersion": 2,
         "position": [
-          416,
-          384
+          272,
+          320
         ],
         "id": "7e3da813-3c69-4c7e-b323-b162b3f1bbe1",
         "name": "Date & Time"
-      },
-      {
-        "parameters": {
-          "resource": "calendar",
-          "calendar": {
-            "__rl": true,
-            "value": "fersaenz181@gmail.com",
-            "mode": "list",
-            "cachedResultName": "clinican8n"
-          },
-          "timeMin": "={{ $json.formattedDate }}T09:00:00",
-          "timeMax": "={{ $json.formattedDate }}T17:00:00",
-          "options": {
-            "outputFormat": "bookedSlots",
-            "timezone": {
-              "__rl": true,
-              "value": "Europe/Madrid",
-              "mode": "list",
-              "cachedResultName": "Europe/Madrid"
-            }
-          }
-        },
-        "type": "n8n-nodes-base.googleCalendar",
-        "typeVersion": 1.3,
-        "position": [
-          352,
-          592
-        ],
-        "id": "e758bc52-6921-44e4-b467-f6ae679de36a",
-        "name": "Get availability in a calendar",
-        "alwaysOutputData": true,
-        "credentials": {
-          "googleCalendarOAuth2Api": {
-            "id": "pjBvS4mIslDHoJiA",
-            "name": "Google Calendar account"
-          }
-        }
-      },
-      {
-        "parameters": {
-          "fieldsToAggregate": {
-            "fieldToAggregate": [
-              {
-                "fieldToAggregate": "start"
-              },
-              {
-                "fieldToAggregate": "end"
-              }
-            ]
-          },
-          "options": {}
-        },
-        "type": "n8n-nodes-base.aggregate",
-        "typeVersion": 1,
-        "position": [
-          480,
-          560
-        ],
-        "id": "717bed3a-055e-4fdc-b8e9-b157886bee4e",
-        "name": "Aggregate"
       },
       {
         "parameters": {
@@ -346,7 +276,7 @@
           "responses": {
             "values": [
               {
-                "content": "=Devuelveme los espacios disponibles en el calendario el {{ $json.formattedDate }} en espacios de 60 minutos. El out por ejemplo debe ser asi:\n\n9:00\n\n11:00\n\n13:00\n\n15:00"
+                "content": "=Devuelveme los espacios disponibles en el calendario el {{ $('Date & Time').item.json.formattedDate }} en espacios de 60 minutos. El out por ejemplo debe ser asi:\n\n9:00\n\n11:00\n\n13:00\n\n15:00"
               },
               {
                 "role": "system",
@@ -360,7 +290,7 @@
         "type": "@n8n/n8n-nodes-langchain.openAi",
         "typeVersion": 2.1,
         "position": [
-          688,
+          1024,
           368
         ],
         "id": "5b73f64e-bb9a-435f-8735-99f3b4d0b254",
@@ -387,7 +317,7 @@
         "typeVersion": 1.3,
         "position": [
           784,
-          576
+          736
         ],
         "id": "786aeb7f-54f1-4f4d-ae9a-85af5b4ea381",
         "name": "Get many events in Google Calendar",
@@ -397,6 +327,45 @@
             "name": "Google Calendar account"
           }
         }
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "calendar": {
+            "__rl": true,
+            "value": "fersaenz181@gmail.com",
+            "mode": "list",
+            "cachedResultName": "clinican8n"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleCalendar",
+        "typeVersion": 1.3,
+        "position": [
+          544,
+          320
+        ],
+        "id": "73f178ee-5857-45b7-afd4-d03a5a83b378",
+        "name": "Get many events",
+        "credentials": {
+          "googleCalendarOAuth2Api": {
+            "id": "pjBvS4mIslDHoJiA",
+            "name": "Google Calendar account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "const events = items;\n\nconst slots = {};\n\nfor (const item of events) {\n  const start = item.json.start.dateTime;\n\n  const date = new Date(start);\n  const hour = date.getHours().toString().padStart(2, '0') + \":00\";\n\n  if (!slots[hour]) {\n    slots[hour] = 0;\n  }\n\n  slots[hour]++;\n}\n\nconst horasDelDia = [\n  \"09:00\",\"10:00\",\"11:00\",\"12:00\",\n  \"13:00\",\"14:00\",\"15:00\",\"16:00\"\n];\n\nconst disponibilidad = [];\n\nfor (const hora of horasDelDia) {\n  const citas = slots[hora] || 0;\n\n  if (citas < 2) {\n    disponibilidad.push({\n      hora,\n      citas\n    });\n  }\n}\n\nreturn disponibilidad.map(h => ({ json: h }));"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          816,
+          320
+        ],
+        "id": "2f2ea1f7-bb51-45fc-996a-48bb4877fb76",
+        "name": "Code in JavaScript"
       }
     ],
     "connections": {
@@ -415,18 +384,7 @@
         "main": [
           [
             {
-              "node": "Message a model",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "Get availability in a calendar": {
-        "main": [
-          [
-            {
-              "node": "Aggregate",
+              "node": "Get many events",
               "type": "main",
               "index": 0
             }
@@ -435,20 +393,41 @@
       },
       "Get many events in Google Calendar": {
         "ai_tool": [
+          []
+        ]
+      },
+      "Get many events": {
+        "main": [
           [
             {
-              "node": "Message a model",
-              "type": "ai_tool",
+              "node": "Code in JavaScript",
+              "type": "main",
               "index": 0
             }
           ]
         ]
+      },
+      "Code in JavaScript": {
+        "main": [
+          [
+            {
+              "node": "Message a model",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Message a model": {
+        "main": [
+          []
+        ]
       }
     },
     "authors": "Fernando  Saenz",
-    "name": "Version fdbe4617",
+    "name": "Version 046e6ac9",
     "description": "",
-    "autosaved": true
+    "autosaved": false
   },
   "tags": []
 }
