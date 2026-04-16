@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-14T11:06:47.441Z",
+  "updatedAt": "2026-04-16T09:03:28.410Z",
   "createdAt": "2026-03-13T09:48:23.367Z",
   "id": "NJ6YNksnJvuKaSNj",
   "name": "agendar",
@@ -47,7 +47,9 @@
         },
         "start": "={{ $json.fecha }}T{{ $json.horario }}",
         "end": "={{ DateTime.fromISO($json.fecha + \"T\" + $json.horario).plus({ hours: 1 }).toFormat(\"yyyy-MM-dd'T'HH:mm\") }}",
-        "additionalFields": {}
+        "additionalFields": {
+          "description": "={{ $json['nombre completo'] }}"
+        }
       },
       "type": "n8n-nodes-base.googleCalendar",
       "typeVersion": 1.3,
@@ -237,7 +239,7 @@
       }
     ]
   },
-  "versionId": "512b19e8-10a3-4f97-be58-e0def400d9e5",
+  "versionId": "18b81021-7c0c-47b7-9032-0641722d5d9f",
   "activeVersionId": "e4693908-cb92-40cf-9c9e-76cf6eff7624",
   "triggerCount": 0,
   "shared": [
