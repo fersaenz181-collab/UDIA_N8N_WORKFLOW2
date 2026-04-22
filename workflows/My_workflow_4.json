@@ -1,196 +1,54 @@
 {
-  "updatedAt": "2026-03-06T10:21:52.620Z",
-  "createdAt": "2026-03-02T17:12:05.752Z",
-  "id": "EzRxDQanxhm2bLPN",
+  "updatedAt": "2026-04-22T09:19:57.304Z",
+  "createdAt": "2026-04-22T09:12:44.748Z",
+  "id": "g2nmI2PPHGzBQ7vw",
   "name": "My workflow 4",
-  "active": true,
+  "active": false,
   "isArchived": false,
   "nodes": [
     {
       "parameters": {
-        "inputSource": "passthrough"
+        "options": {}
       },
-      "type": "n8n-nodes-base.executeWorkflowTrigger",
-      "typeVersion": 1.1,
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
       "position": [
-        0,
-        144
+        -480,
+        -112
       ],
-      "id": "288569d2-754d-469c-bbc4-785338d9bc89",
-      "name": "When Executed by Another Workflow"
+      "id": "50056999-99a1-4522-be11-1316719d6265",
+      "name": "When chat message received",
+      "webhookId": "aea7a6ec-09be-469a-81d2-53d9b9015bb6"
     },
     {
       "parameters": {
-        "mode": "raw",
-        "jsonOutput": "{\n  \"loc\": \"https://mascotalandia.es/26--natura-diet-daily-food-12kg-pienso-para-perros-con-pollo-y-arroz.html\",\n  \"image:image\": {\n    \"image:loc\": \"https://mascotalandia.es/38-large_default/natura-diet-daily-food-12kg-pienso-para-perros-con-pollo-y-arroz.jpg\"\n  }\n}",
+        "resource": "image",
+        "prompt": "=Crea una imagen altamente cinematográfica y visualmente impactante basada en: '[{{ $json.chatInput }}]'. Usa iluminación dramática, alto contraste, colores vibrantes y un punto focal poderoso. La composición debe estar optimizada para formato vertical (9:16), con el sujeto principal centrado. Añade profundidad, partículas o desenfoque de movimiento si encaja, y transmite una emoción fuerte (asombro, tensión o curiosidad). Estilo ultra realista o hiper detallado, resolución 4K, enfoque nítido, estética viral de miniaturas de YouTube Shorts, sin texto, sin marcas de agua.\" ",
         "options": {}
       },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
       "position": [
-        224,
-        -64
+        -224,
+        -128
       ],
-      "id": "c6a66511-1035-4e88-b2ce-52db184f80d0",
-      "name": "Edit Fields"
-    },
-    {
-      "parameters": {
-        "url": "={{ $json.loc }}",
-        "sendHeaders": true,
-        "specifyHeaders": "json",
-        "jsonHeaders": "{\n  \"User-Agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36\",\n  \"Accept\": \"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8\",\n  \"Accept-Language\": \"es-ES,es;q=0.9,en;q=0.8\",\n  \"Accept-Encoding\": \"gzip, deflate, br\",\n  \"Connection\": \"keep-alive\",\n  \"Upgrade-Insecure-Requests\": \"1\"\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
-      "position": [
-        320,
-        144
-      ],
-      "id": "80f3920d-1f3c-41da-996f-d5041166cd74",
-      "name": "HTTP Request"
-    },
-    {
-      "parameters": {
-        "operation": "extractHtmlContent",
-        "extractionValues": {
-          "values": [
-            {
-              "key": "nombre",
-              "cssSelector": ".product_name"
-            },
-            {
-              "key": "productor",
-              "cssSelector": ".product-manufacturer"
-            },
-            {
-              "key": "descripcion",
-              "cssSelector": ".product-description"
-            },
-            {
-              "key": "precio",
-              "cssSelector": ".current-price"
-            },
-            {
-              "key": "descripcion larga",
-              "cssSelector": ".info_content"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.html",
-      "typeVersion": 1.2,
-      "position": [
-        0,
-        -192
-      ],
-      "id": "ef631522-09a6-45e2-ad86-840017604edd",
-      "name": "HTML"
-    },
-    {
-      "parameters": {
-        "text": "=Extrae toda la informacion del producto que te envio en html.\nTu debes devolver marca, nombre del producto, descripcion corta, descripcion larga y precio\n {{ $json.data }}",
-        "attributes": {
-          "attributes": [
-            {
-              "name": "nombre",
-              "description": "nombre del producto",
-              "required": true
-            },
-            {
-              "name": "marca",
-              "description": "marca del producto",
-              "required": true
-            },
-            {
-              "name": "descripcion corta",
-              "description": "descripcion del producto corta ",
-              "required": true
-            },
-            {
-              "name": "descripcion larga",
-              "description": "descripcion larga del producto",
-              "required": true
-            },
-            {
-              "name": "precio",
-              "description": "precio del producto",
-              "required": true
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
-      "typeVersion": 1.2,
-      "position": [
-        672,
-        144
-      ],
-      "id": "0bf90b1a-afa2-4c2f-b665-4a1e14c333ee",
-      "name": "Information Extractor"
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1,
-      "position": [
-        752,
-        368
-      ],
-      "id": "823b3096-01be-40db-8acd-2993c8de7c5b",
-      "name": "Google Gemini Chat Model",
+      "id": "ed14ee34-ead6-42ae-9d94-3ff97e2d1718",
+      "name": "Generate an image",
       "credentials": {
-        "googlePalmApi": {
-          "id": "RTwuewuhab5nutx5",
-          "name": "Google Gemini(PaLM) Api account 2"
+        "openAiApi": {
+          "id": "N2JeEF92nbocT2XP",
+          "name": "OpenAi account"
         }
       }
     }
   ],
   "connections": {
-    "When Executed by Another Workflow": {
+    "When chat message received": {
       "main": [
         [
           {
-            "node": "HTTP Request",
+            "node": "Generate an image",
             "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields": {
-      "main": [
-        []
-      ]
-    },
-    "HTTP Request": {
-      "main": [
-        [
-          {
-            "node": "Information Extractor",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Information Extractor": {
-      "main": [
-        []
-      ]
-    },
-    "Google Gemini Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "Information Extractor",
-            "type": "ai_languageModel",
             "index": 0
           }
         ]
@@ -199,227 +57,25 @@
   },
   "settings": {
     "executionOrder": "v1",
-    "binaryMode": "separate",
-    "availableInMCP": false
+    "binaryMode": "separate"
   },
   "staticData": null,
   "meta": {
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "f0d02de9-09e5-47ed-bb4a-ab6e7540acf2",
-  "activeVersionId": "f0d02de9-09e5-47ed-bb4a-ab6e7540acf2",
+  "versionId": "3c8e6ea7-1aa1-4f4f-8717-29891fe2167f",
+  "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
     {
-      "updatedAt": "2026-03-02T17:12:05.755Z",
-      "createdAt": "2026-03-02T17:12:05.755Z",
+      "updatedAt": "2026-04-22T09:12:44.752Z",
+      "createdAt": "2026-04-22T09:12:44.752Z",
       "role": "workflow:owner",
-      "workflowId": "EzRxDQanxhm2bLPN",
+      "workflowId": "g2nmI2PPHGzBQ7vw",
       "projectId": "MmvYKa71ccIMyArc"
     }
   ],
-  "activeVersion": {
-    "updatedAt": "2026-03-06T10:22:22.000Z",
-    "createdAt": "2026-03-06T10:21:52.620Z",
-    "versionId": "f0d02de9-09e5-47ed-bb4a-ab6e7540acf2",
-    "workflowId": "EzRxDQanxhm2bLPN",
-    "nodes": [
-      {
-        "parameters": {
-          "inputSource": "passthrough"
-        },
-        "type": "n8n-nodes-base.executeWorkflowTrigger",
-        "typeVersion": 1.1,
-        "position": [
-          0,
-          144
-        ],
-        "id": "288569d2-754d-469c-bbc4-785338d9bc89",
-        "name": "When Executed by Another Workflow"
-      },
-      {
-        "parameters": {
-          "mode": "raw",
-          "jsonOutput": "{\n  \"loc\": \"https://mascotalandia.es/26--natura-diet-daily-food-12kg-pienso-para-perros-con-pollo-y-arroz.html\",\n  \"image:image\": {\n    \"image:loc\": \"https://mascotalandia.es/38-large_default/natura-diet-daily-food-12kg-pienso-para-perros-con-pollo-y-arroz.jpg\"\n  }\n}",
-          "options": {}
-        },
-        "type": "n8n-nodes-base.set",
-        "typeVersion": 3.4,
-        "position": [
-          224,
-          -64
-        ],
-        "id": "c6a66511-1035-4e88-b2ce-52db184f80d0",
-        "name": "Edit Fields"
-      },
-      {
-        "parameters": {
-          "url": "={{ $json.loc }}",
-          "sendHeaders": true,
-          "specifyHeaders": "json",
-          "jsonHeaders": "{\n  \"User-Agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36\",\n  \"Accept\": \"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8\",\n  \"Accept-Language\": \"es-ES,es;q=0.9,en;q=0.8\",\n  \"Accept-Encoding\": \"gzip, deflate, br\",\n  \"Connection\": \"keep-alive\",\n  \"Upgrade-Insecure-Requests\": \"1\"\n}",
-          "options": {}
-        },
-        "type": "n8n-nodes-base.httpRequest",
-        "typeVersion": 4.4,
-        "position": [
-          320,
-          144
-        ],
-        "id": "80f3920d-1f3c-41da-996f-d5041166cd74",
-        "name": "HTTP Request"
-      },
-      {
-        "parameters": {
-          "operation": "extractHtmlContent",
-          "extractionValues": {
-            "values": [
-              {
-                "key": "nombre",
-                "cssSelector": ".product_name"
-              },
-              {
-                "key": "productor",
-                "cssSelector": ".product-manufacturer"
-              },
-              {
-                "key": "descripcion",
-                "cssSelector": ".product-description"
-              },
-              {
-                "key": "precio",
-                "cssSelector": ".current-price"
-              },
-              {
-                "key": "descripcion larga",
-                "cssSelector": ".info_content"
-              }
-            ]
-          },
-          "options": {}
-        },
-        "type": "n8n-nodes-base.html",
-        "typeVersion": 1.2,
-        "position": [
-          0,
-          -192
-        ],
-        "id": "ef631522-09a6-45e2-ad86-840017604edd",
-        "name": "HTML"
-      },
-      {
-        "parameters": {
-          "text": "=Extrae toda la informacion del producto que te envio en html.\nTu debes devolver marca, nombre del producto, descripcion corta, descripcion larga y precio\n {{ $json.data }}",
-          "attributes": {
-            "attributes": [
-              {
-                "name": "nombre",
-                "description": "nombre del producto",
-                "required": true
-              },
-              {
-                "name": "marca",
-                "description": "marca del producto",
-                "required": true
-              },
-              {
-                "name": "descripcion corta",
-                "description": "descripcion del producto corta ",
-                "required": true
-              },
-              {
-                "name": "descripcion larga",
-                "description": "descripcion larga del producto",
-                "required": true
-              },
-              {
-                "name": "precio",
-                "description": "precio del producto",
-                "required": true
-              }
-            ]
-          },
-          "options": {}
-        },
-        "type": "@n8n/n8n-nodes-langchain.informationExtractor",
-        "typeVersion": 1.2,
-        "position": [
-          672,
-          144
-        ],
-        "id": "0bf90b1a-afa2-4c2f-b665-4a1e14c333ee",
-        "name": "Information Extractor"
-      },
-      {
-        "parameters": {
-          "options": {}
-        },
-        "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-        "typeVersion": 1,
-        "position": [
-          752,
-          368
-        ],
-        "id": "823b3096-01be-40db-8acd-2993c8de7c5b",
-        "name": "Google Gemini Chat Model",
-        "credentials": {
-          "googlePalmApi": {
-            "id": "RTwuewuhab5nutx5",
-            "name": "Google Gemini(PaLM) Api account 2"
-          }
-        }
-      }
-    ],
-    "connections": {
-      "When Executed by Another Workflow": {
-        "main": [
-          [
-            {
-              "node": "HTTP Request",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "Edit Fields": {
-        "main": [
-          []
-        ]
-      },
-      "HTTP Request": {
-        "main": [
-          [
-            {
-              "node": "Information Extractor",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "Information Extractor": {
-        "main": [
-          []
-        ]
-      },
-      "Google Gemini Chat Model": {
-        "ai_languageModel": [
-          [
-            {
-              "node": "Information Extractor",
-              "type": "ai_languageModel",
-              "index": 0
-            }
-          ]
-        ]
-      }
-    },
-    "authors": "Fernando  Saenz",
-    "name": "Version f0d02de9",
-    "description": "",
-    "autosaved": true
-  },
+  "activeVersion": null,
   "tags": []
 }
