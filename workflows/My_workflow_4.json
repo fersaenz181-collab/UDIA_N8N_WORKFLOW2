@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-22T09:19:57.304Z",
+  "updatedAt": "2026-04-22T16:42:47.667Z",
   "createdAt": "2026-04-22T09:12:44.748Z",
   "id": "g2nmI2PPHGzBQ7vw",
   "name": "My workflow 4",
@@ -13,7 +13,7 @@
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.4,
       "position": [
-        -480,
+        -768,
         -112
       ],
       "id": "50056999-99a1-4522-be11-1316719d6265",
@@ -29,8 +29,8 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 2.1,
       "position": [
-        -224,
-        -128
+        -544,
+        -112
       ],
       "id": "ed14ee34-ead6-42ae-9d94-3ff97e2d1718",
       "name": "Generate an image",
@@ -40,6 +40,179 @@
           "name": "OpenAi account"
         }
       }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://queue.fal.run/fal-ai/kling-video/v1",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Key 57b532b4-2f62-49ef-98a2-541ebefebb2b:ab89d7f10c6acedf3931afd8f47b00ed"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"input\": {\n    \"image_url\": \"{{ $json.data.url }}\",\n    \"prompt\": \"cinematic motion, slow zoom, dramatic lighting\",\n    \"duration\": 3\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -96,
+        -112
+      ],
+      "id": "b217cbf1-dd33-40cd-8e5e-5e3dac2f921b",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.imgbb.com/1/upload",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "ddca3cc5ce091ebb5af690074a773955"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "image",
+              "inputDataFieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -320,
+        -112
+      ],
+      "id": "2ab89e65-31e8-47df-8504-ec8d69b9b125",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.status_url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Key 57b532b4-2f62-49ef-98a2-541ebefebb2b:ab89d7f10c6acedf3931afd8f47b00ed"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        128,
+        -112
+      ],
+      "id": "6a7580f7-0f76-4601-a22c-40aab4184db3",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "83dfa5b7-c49e-406c-ba56-c202e0cc6c16",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "COMPLETED",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1168,
+        128
+      ],
+      "id": "abcedd3c-c36a-4877-a727-1b217c3e7870",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        576,
+        -112
+      ],
+      "id": "c7fa961c-7160-4c5c-95ac-1e2d0182d4c7",
+      "name": "Wait",
+      "webhookId": "09d53e31-e0e7-4d83-849c-810269be42d8"
+    },
+    {
+      "parameters": {
+        "batchSize": 10,
+        "options": {
+          "reset": false
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        848,
+        -112
+      ],
+      "id": "54461280-99ac-4110-8cd3-60638ce66d1d",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "url": "=https://fal.run/fal-ai/kling-video/requests/{{ $json.request_id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Key 57b532b4-2f62-49ef-98a2-541ebefebb2b:ab89d7f10c6acedf3931afd8f47b00ed"
+            },
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        336,
+        -112
+      ],
+      "id": "519f5123-aff6-4286-8c58-9da1101af823",
+      "name": "HTTP Request3"
     }
   ],
   "connections": {
@@ -53,6 +226,79 @@
           }
         ]
       ]
+    },
+    "Generate an image": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        []
+      ]
     }
   },
   "settings": {
@@ -64,7 +310,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "3c8e6ea7-1aa1-4f4f-8717-29891fe2167f",
+  "versionId": "0e46cb3a-5086-4c3f-bc2f-635eb2f69451",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
