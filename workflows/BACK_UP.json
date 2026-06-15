@@ -603,7 +603,7 @@
   "staticData": {
     "node:Schedule Trigger": {
       "recurrenceRules": [
-        0
+        12
       ]
     }
   },
@@ -1215,6 +1215,7 @@
         ]
       }
     },
+    "nodeGroups": [],
     "authors": "Fernando  Saenz",
     "name": "Version a269a5eb",
     "description": "",
