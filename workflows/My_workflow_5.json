@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-15T09:15:27.504Z",
+  "updatedAt": "2026-06-16T09:39:48.811Z",
   "createdAt": "2026-06-15T09:15:17.362Z",
   "id": "pGu9cUPgRzovBElC",
   "name": "My workflow 5",
@@ -14,20 +14,91 @@
         0,
         0
       ],
-      "id": "f5d2a65d-7fd2-4071-a48b-d6a98cd5bfae",
+      "id": "8ecf39af-483e-4771-ab79-f6b22698a001",
       "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "filters": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "c4158459-dc55-429b-b05f-1b2796ce7396",
+      "name": "Get many workflows",
+      "credentials": {
+        "n8nApi": {
+          "id": "tNoD2VM1duRZIx31",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "workflowId": {
+          "__rl": true,
+          "value": "5SDzInvoEP6GLIc8wM6Vb",
+          "mode": "list",
+          "cachedResultName": "citas web (#5SDzInvoEP6GLIc8wM6Vb)"
+        },
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "d1943812-e578-4bcd-8af8-aa7c0743a7c5",
+      "name": "Get a workflow",
+      "credentials": {
+        "n8nApi": {
+          "id": "tNoD2VM1duRZIx31",
+          "name": "n8n account"
+        }
+      }
     }
   ],
-  "connections": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get many workflows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many workflows": {
+      "main": [
+        [
+          {
+            "node": "Get a workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate",
     "availableInMCP": false
   },
   "staticData": null,
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "pinData": {},
-  "versionId": "97b05a4a-b1e6-4df2-9bd9-48b7677e25af",
+  "versionId": "53b2a1cc-e5a8-4723-bd87-2d4222b5d20c",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
