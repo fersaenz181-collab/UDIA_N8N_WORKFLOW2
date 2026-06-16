@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-16T09:39:48.811Z",
+  "updatedAt": "2026-06-16T10:27:50.269Z",
   "createdAt": "2026-06-15T09:15:17.362Z",
   "id": "pGu9cUPgRzovBElC",
   "name": "My workflow 5",
@@ -7,87 +7,23 @@
   "isArchived": false,
   "nodes": [
     {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
+      "parameters": {
+        "eventsToInclude": [
+          "messages"
+        ]
+      },
+      "type": "@mookielianhd/n8n-nodes-instagram.instagramTrigger",
+      "typeVersion": 2,
       "position": [
         0,
         0
       ],
-      "id": "8ecf39af-483e-4771-ab79-f6b22698a001",
-      "name": "When clicking ‘Execute workflow’"
-    },
-    {
-      "parameters": {
-        "filters": {},
-        "requestOptions": {}
-      },
-      "type": "n8n-nodes-base.n8n",
-      "typeVersion": 1,
-      "position": [
-        208,
-        0
-      ],
-      "id": "c4158459-dc55-429b-b05f-1b2796ce7396",
-      "name": "Get many workflows",
-      "credentials": {
-        "n8nApi": {
-          "id": "tNoD2VM1duRZIx31",
-          "name": "n8n account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "operation": "get",
-        "workflowId": {
-          "__rl": true,
-          "value": "5SDzInvoEP6GLIc8wM6Vb",
-          "mode": "list",
-          "cachedResultName": "citas web (#5SDzInvoEP6GLIc8wM6Vb)"
-        },
-        "requestOptions": {}
-      },
-      "type": "n8n-nodes-base.n8n",
-      "typeVersion": 1,
-      "position": [
-        416,
-        0
-      ],
-      "id": "d1943812-e578-4bcd-8af8-aa7c0743a7c5",
-      "name": "Get a workflow",
-      "credentials": {
-        "n8nApi": {
-          "id": "tNoD2VM1duRZIx31",
-          "name": "n8n account"
-        }
-      }
+      "id": "80eb4d04-3c3b-4c5e-99f4-e15f4c97257a",
+      "name": "Instagram Trigger",
+      "webhookId": "4a59f05d-5555-4fdd-9491-62fa2e69e099"
     }
   ],
-  "connections": {
-    "When clicking ‘Execute workflow’": {
-      "main": [
-        [
-          {
-            "node": "Get many workflows",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get many workflows": {
-      "main": [
-        [
-          {
-            "node": "Get a workflow",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    }
-  },
+  "connections": {},
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate",
@@ -98,7 +34,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "53b2a1cc-e5a8-4723-bd87-2d4222b5d20c",
+  "versionId": "68e04edd-ed09-4400-acfd-ce097b22d512",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
