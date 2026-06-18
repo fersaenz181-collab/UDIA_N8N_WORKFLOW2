@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-17T13:58:43.062Z",
+  "updatedAt": "2026-06-18T09:43:15.359Z",
   "createdAt": "2026-06-15T09:15:17.362Z",
   "id": "pGu9cUPgRzovBElC",
   "name": "My workflow 5",
@@ -8,170 +8,100 @@
   "nodes": [
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "dc198caa-356e-4fbc-b7f1-243b8b9bed5f",
-              "name": "nombre",
-              "value": "={{$json.nombre.split(' ')[0]}}",
-              "type": "string"
-            },
-            {
-              "id": "233e0706-2e07-4d62-b360-bcecaed07e0f",
-              "name": "APELLIDO",
-              "value": "={{$json.nombre.split(' ').slice(1).join(' ')}}",
-              "type": "string"
-            },
-            {
-              "id": "4753bece-109e-468b-ad46-2952bb1b47c9",
-              "name": "email",
-              "value": "={{ $json.email.toLowerCase()}}",
-              "type": "string"
-            }
-          ]
-        },
+        "respondWith": "json",
+        "responseBody": "={{ {\n  id_pago: $json.body.id_pago,\n  valor: true\n} }}",
         "options": {}
       },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
       "position": [
-        288,
-        16
+        368,
+        0
       ],
-      "id": "1907711b-d5e6-4def-bfce-3cff3c6a0ce0",
-      "name": "Edit Fields"
+      "id": "deca5ca1-71ab-4441-bb13-02ca2e869ab8",
+      "name": "Respond to Webhook"
     },
     {
       "parameters": {
-        "formTitle": "prueba",
-        "formDescription": "klk",
-        "formFields": {
-          "values": [
-            {
-              "fieldLabel": "nombre"
-            },
-            {
-              "fieldLabel": "email"
-            }
-          ]
-        },
-        "options": {}
+        "httpMethod": "POST",
+        "authentication": "basicAuth",
+        "responseMode": "responseNode",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
       },
-      "type": "n8n-nodes-base.formTrigger",
-      "typeVersion": 2.6,
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
       "position": [
         0,
         0
       ],
-      "id": "572065ec-069e-4380-9aec-d059fec73812",
-      "name": "On form submission",
-      "webhookId": "d16b62d1-2079-47c8-9917-9b0311b44312"
-    },
-    {
-      "parameters": {
-        "operation": "get",
-        "dataTableId": {
-          "__rl": true,
-          "mode": "list",
-          "value": ""
+      "id": "d389878e-5873-4ad6-aff0-e2591efc260a",
+      "name": "Webhook",
+      "webhookId": "4c826780-fd4a-4ddc-9fe9-5df52541613e",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "iL60rLnY0cytnunb",
+          "name": "Unnamed credential"
         }
-      },
-      "type": "n8n-nodes-base.dataTable",
-      "typeVersion": 1.1,
-      "position": [
-        496,
-        16
-      ],
-      "id": "7ca0333f-8ffe-4389-a68b-d5ba57266a16",
-      "name": "Get row(s)"
+      }
     },
     {
       "parameters": {
-        "jsCode": "return [\n  {\n    json: {\n      pedido_id: \"PED-001\",\n      cliente: \"Fernando Saenz\",\n      productos: [\n        {\n          nombre: \"Portátil\",\n          cantidad: 1,\n          precio: 899.99\n        },\n        {\n          nombre: \"Ratón\",\n          cantidad: 2,\n          precio: 19.99\n        },\n        {\n          nombre: \"Teclado\",\n          cantidad: 1,\n          precio: 49.99\n        },\n        {\n          nombre: \"Monitor\",\n          cantidad: 2,\n          precio: 199.99\n        }\n      ]\n    }\n  }\n];\n\n"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        560,
-        -144
-      ],
-      "id": "3c46fd9b-2dea-4cbc-b86d-8feb073e026b",
-      "name": "Code in JavaScript"
-    },
-    {
-      "parameters": {
-        "fieldToSplitOut": "productos",
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1Uc9QXVcqEHFvSzU9qkZbOhezX5I3dUs6jhFE4psCpS0",
+          "mode": "list",
+          "cachedResultName": "preuba trigger",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Uc9QXVcqEHFvSzU9qkZbOhezX5I3dUs6jhFE4psCpS0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Uc9QXVcqEHFvSzU9qkZbOhezX5I3dUs6jhFE4psCpS0/edit#gid=0"
+        },
+        "event": "rowAdded",
         "options": {}
       },
-      "type": "n8n-nodes-base.splitOut",
+      "type": "n8n-nodes-base.googleSheetsTrigger",
       "typeVersion": 1,
       "position": [
-        928,
-        -144
+        416,
+        -208
       ],
-      "id": "7f156cf6-31ba-41b5-b0f0-0b9eab405141",
-      "name": "Split Out"
-    },
-    {
-      "parameters": {
-        "aggregate": "aggregateAllItemData",
-        "destinationFieldName": "=\n{{ $json.precio }}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.aggregate",
-      "typeVersion": 1,
-      "position": [
-        1136,
-        -144
-      ],
-      "id": "7aee060f-dc8a-4db4-b0f9-19524cf0a8f6",
-      "name": "Aggregate"
+      "id": "b8dd858a-0215-4665-a223-582ecdddc1a9",
+      "name": "Google Sheets Trigger",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "UymkWAyGSZNpp4xH",
+          "name": "Google Sheets Trigger account"
+        }
+      }
     }
   ],
   "connections": {
-    "On form submission": {
+    "Webhook": {
       "main": [
         [
           {
-            "node": "Edit Fields",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields": {
-      "main": [
-        [
-          {
-            "node": "Get row(s)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get row(s)": {
-      "main": [
-        []
-      ]
-    },
-    "Code in JavaScript": {
-      "main": [
-        [
-          {
-            "node": "Split Out",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Split Out": {
-      "main": [
-        [
-          {
-            "node": "Aggregate",
+            "node": "Respond to Webhook",
             "type": "main",
             "index": 0
           }
@@ -196,7 +126,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "960e054f-c3da-4043-b847-6a4c06747bf5",
+  "versionId": "2da76794-1cb1-461e-b1c4-7cf491c1ec6b",
   "activeVersionId": null,
   "triggerCount": 1,
   "shared": [
