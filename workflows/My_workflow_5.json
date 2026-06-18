@@ -1,107 +1,625 @@
 {
-  "updatedAt": "2026-06-18T09:43:15.359Z",
+  "updatedAt": "2026-06-18T11:44:07.204Z",
   "createdAt": "2026-06-15T09:15:17.362Z",
   "id": "pGu9cUPgRzovBElC",
   "name": "My workflow 5",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        1344,
+        -368
+      ],
+      "id": "dffad5b7-d6bf-44e6-9e5c-fe7931c5c943",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
       "parameters": {
-        "respondWith": "json",
-        "responseBody": "={{ {\n  id_pago: $json.body.id_pago,\n  valor: true\n} }}",
+        "jsCode": "const suscriptores = [\n  {\n    nombre: \"Fernando Saenz\",\n    email: \"fernando.saenz@example.com\",\n    activo: true,\n    plan: \"Premium\"\n  },\n  {\n    nombre: \"Laura Garcia\",\n    email: \"laura.garcia@example.com\",\n    activo: true,\n    plan: \"Basic\"\n  },\n  {\n    nombre: \"Carlos Ruiz\",\n    email: \"carlos.ruiz@example.com\",\n    activo: false,\n    plan: \"Premium\"\n  },\n  {\n    nombre: \"Marta Lopez\",\n    email: \"marta.lopez@example.com\",\n    activo: true,\n    plan: \"Pro\"\n  },\n  {\n    nombre: \"Javier Martin\",\n    email: \"javier.martin@example.com\",\n    activo: true,\n    plan: \"Basic\"\n  },\n  {\n    nombre: \"Ana Perez\",\n    email: \"ana.perez@example.com\",\n    activo: false,\n    plan: \"Basic\"\n  },\n  {\n    nombre: \"Sergio Diaz\",\n    email: \"sergio.diaz@example.com\",\n    activo: true,\n    plan: \"Premium\"\n  },\n  {\n    nombre: \"Lucia Torres\",\n    email: \"lucia.torres@example.com\",\n    activo: true,\n    plan: \"Pro\"\n  },\n  {\n    nombre: \"David Moreno\",\n    email: \"david.moreno@example.com\",\n    activo: false,\n    plan: \"Basic\"\n  },\n  {\n    nombre: \"Paula Sanchez\",\n    email: \"paula.sanchez@example.com\",\n    activo: true,\n    plan: \"Premium\"\n  },\n  {\n    nombre: \"Alberto Gil\",\n    email: \"alberto.gil@example.com\",\n    activo: true,\n    plan: \"Pro\"\n  },\n  {\n    nombre: \"Cristina Vega\",\n    email: \"cristina.vega@example.com\",\n    activo: false,\n    plan: \"Basic\"\n  }\n];\n\nreturn suscriptores.map(s => ({ json: s }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "45783f56-beb5-4f32-82b7-4c1a9dc87939",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "c7e73625-9df4-4742-99cd-6bde13233206",
+              "leftValue": "={{ $json.activo }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "06fc7de8-5bf5-4a20-a0b3-61c16d871356",
+              "leftValue": "={{ $json.plan }}",
+              "rightValue": "Premium",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
         "options": {}
       },
-      "type": "n8n-nodes-base.respondToWebhook",
-      "typeVersion": 1.5,
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
       "position": [
         368,
-        0
+        -256
       ],
-      "id": "deca5ca1-71ab-4441-bb13-02ca2e869ab8",
-      "name": "Respond to Webhook"
+      "id": "280e2140-71c2-42f3-a14b-8bf93a5072be",
+      "name": "Filter"
     },
     {
       "parameters": {
-        "httpMethod": "POST",
-        "authentication": "basicAuth",
-        "responseMode": "responseNode",
-        "options": {
-          "responseHeaders": {
-            "entries": [
-              {
-                "name": "Content-Type",
-                "value": "application/json"
-              }
-            ]
-          }
-        }
-      },
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2.1,
-      "position": [
-        0,
-        0
-      ],
-      "id": "d389878e-5873-4ad6-aff0-e2591efc260a",
-      "name": "Webhook",
-      "webhookId": "4c826780-fd4a-4ddc-9fe9-5df52541613e",
-      "credentials": {
-        "httpBasicAuth": {
-          "id": "iL60rLnY0cytnunb",
-          "name": "Unnamed credential"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "pollTimes": {
-          "item": [
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
             {
-              "mode": "everyMinute"
+              "id": "03ede275-e9a6-4ea9-bb62-c749af699ae2",
+              "leftValue": "={{ $json.activo }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        448,
+        0
+      ],
+      "id": "4bfd0a34-7271-4bd1-8251-e4dc5747a8e9",
+      "name": "Filter1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "03eb08c2-6c11-4048-9e9e-ebdf8ba300cb",
+              "leftValue": "={{ $json.plan }}",
+              "rightValue": "Premium",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        448,
+        112
+      ],
+      "id": "24cc50a4-e2eb-4167-a61d-b6c11780217f",
+      "name": "Filter2"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        688,
+        16
+      ],
+      "id": "db5a2437-9644-4c23-8425-cbf9c55e98a1",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "jsCode": "const leads = [\n  {\n    nombre: \"Fernando Saenz\",\n    email: \"fernando@example.com\",\n    origen: \"Web\"\n  },\n  {\n    nombre: \"Laura Garcia\",\n    email: \"laura@example.com\",\n    origen: \"LinkedIn\"\n  },\n  {\n    nombre: \"Carlos Ruiz\",\n    email: \"carlos@example.com\",\n    origen: \"Web\"\n  },\n  {\n    nombre: \"Marta Lopez\",\n    email: \"marta@example.com\",\n    origen: \"Facebook\"\n  },\n  {\n    nombre: \"Fernando Saenz\",\n    email: \"fernando@example.com\",\n    origen: \"Formulario\"\n  },\n  {\n    nombre: \"Laura Garcia\",\n    email: \"laura@example.com\",\n    origen: \"Web\"\n  },\n  {\n    nombre: \"Javier Martin\",\n    email: \"javier@example.com\",\n    origen: \"LinkedIn\"\n  },\n  {\n    nombre: \"Ana Perez\",\n    email: \"ana@example.com\",\n    origen: \"Instagram\"\n  },\n  {\n    nombre: \"Carlos Ruiz\",\n    email: \"carlos@example.com\",\n    origen: \"Landing Page\"\n  },\n  {\n    nombre: \"Marta Lopez\",\n    email: \"marta@example.com\",\n    origen: \"Google Ads\"\n  }\n];\n\nreturn leads.map(lead => ({ json: lead }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -48,
+        288
+      ],
+      "id": "0cdc5a5c-d5e3-4134-bf2d-412b71021f4f",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "compare": "allFieldsExcept",
+        "fieldsToExclude": "origen",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        160,
+        288
+      ],
+      "id": "17dea908-6d26-43df-8b11-9b8e86dee88f",
+      "name": "Remove Duplicates"
+    },
+    {
+      "parameters": {
+        "jsCode": "const ventas = [\n  {\n    comercial: \"Fernando Saenz\",\n    importe: 1250,\n    producto: \"CRM Pro\"\n  },\n  {\n    comercial: \"Laura Garcia\",\n    importe: 890,\n    producto: \"Licencia ERP\"\n  },\n  {\n    comercial: \"Carlos Ruiz\",\n    importe: 2100,\n    producto: \"Consultoría\"\n  },\n  {\n    comercial: \"Marta Lopez\",\n    importe: 450,\n    producto: \"Hosting\"\n  },\n  {\n    comercial: \"Fernando Saenz\",\n    importe: 1750,\n    producto: \"CRM Pro\"\n  },\n  {\n    comercial: \"Javier Martin\",\n    importe: 3200,\n    producto: \"Desarrollo Web\"\n  },\n  {\n    comercial: \"Laura Garcia\",\n    importe: 650,\n    producto: \"Mantenimiento\"\n  },\n  {\n    comercial: \"Ana Perez\",\n    importe: 980,\n    producto: \"Licencia ERP\"\n  }\n];\n\nreturn ventas.map(venta => ({ json: venta }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -48,
+        -576
+      ],
+      "id": "2264e1e9-c70d-449c-8566-4295d3456325",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "fieldsToSummarize": {
+          "values": [
+            {
+              "aggregation": "sum",
+              "field": "importe"
+            },
+            {
+              "field": "producto"
+            },
+            {
+              "aggregation": "average",
+              "field": "importe"
             }
           ]
         },
-        "documentId": {
-          "__rl": true,
-          "value": "1Uc9QXVcqEHFvSzU9qkZbOhezX5I3dUs6jhFE4psCpS0",
-          "mode": "list",
-          "cachedResultName": "preuba trigger",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Uc9QXVcqEHFvSzU9qkZbOhezX5I3dUs6jhFE4psCpS0/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "gid=0",
-          "mode": "list",
-          "cachedResultName": "Hoja 1",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Uc9QXVcqEHFvSzU9qkZbOhezX5I3dUs6jhFE4psCpS0/edit#gid=0"
-        },
-        "event": "rowAdded",
+        "fieldsToSplitBy": "comercial",
         "options": {}
       },
-      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "type": "n8n-nodes-base.summarize",
+      "typeVersion": 1.1,
+      "position": [
+        160,
+        -576
+      ],
+      "id": "098b4a30-eebd-41ad-80a1-050bfed67d2f",
+      "name": "Summarize"
+    },
+    {
+      "parameters": {
+        "jsCode": "const contactos = [\n  { nombre: \"Fernando Saenz\", numero: \"600123001\" },\n  { nombre: \"Laura Garcia\", numero: \"600123002\" },\n  { nombre: \"Carlos Ruiz\", numero: \"600123003\" },\n  { nombre: \"Marta Lopez\", numero: \"600123004\" },\n  { nombre: \"Javier Martin\", numero: \"600123005\" },\n  { nombre: \"Ana Perez\", numero: \"600123006\" },\n  { nombre: \"Sergio Diaz\", numero: \"600123007\" },\n  { nombre: \"Lucia Torres\", numero: \"600123008\" },\n  { nombre: \"David Moreno\", numero: \"600123009\" },\n  { nombre: \"Paula Sanchez\", numero: \"600123010\" },\n  { nombre: \"Alberto Gil\", numero: \"600123011\" },\n  { nombre: \"Cristina Vega\", numero: \"600123012\" },\n  { nombre: \"Diego Romero\", numero: \"600123013\" },\n  { nombre: \"Elena Navarro\", numero: \"600123014\" },\n  { nombre: \"Raul Ortega\", numero: \"600123015\" },\n  { nombre: \"Silvia Castro\", numero: \"600123016\" },\n  { nombre: \"Miguel Alonso\", numero: \"600123017\" },\n  { nombre: \"Patricia Leon\", numero: \"600123018\" },\n  { nombre: \"Ruben Serrano\", numero: \"600123019\" },\n  { nombre: \"Nuria Blanco\", numero: \"600123020\" },\n  { nombre: \"Victor Molina\", numero: \"600123021\" },\n  { nombre: \"Claudia Reyes\", numero: \"600123022\" },\n  { nombre: \"Adrian Vega\", numero: \"600123023\" },\n  { nombre: \"Beatriz Fuentes\", numero: \"600123024\" },\n  { nombre: \"Ivan Herrera\", numero: \"600123025\" },\n  { nombre: \"Sara Delgado\", numero: \"600123026\" },\n  { nombre: \"Oscar Prieto\", numero: \"600123027\" },\n  { nombre: \"Julia Campos\", numero: \"600123028\" },\n  { nombre: \"Marcos Vidal\", numero: \"600123029\" },\n  { nombre: \"Andrea Rubio\", numero: \"600123030\" }\n];\n\nreturn contactos.map(contacto => ({ json: contacto }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        576,
+        -656
+      ],
+      "id": "7dafcec1-650f-42fb-8c20-23cce6cc0115",
+      "name": "Code in JavaScript3"
+    },
+    {
+      "parameters": {
+        "batchSize": 10,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        512,
+        -544
+      ],
+      "id": "4b39b4fd-2cd8-4f84-b345-99b69006607e",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        416,
-        -208
+        800,
+        -528
       ],
-      "id": "b8dd858a-0215-4665-a223-582ecdddc1a9",
-      "name": "Google Sheets Trigger",
-      "alwaysOutputData": true,
-      "credentials": {
-        "googleSheetsTriggerOAuth2Api": {
-          "id": "UymkWAyGSZNpp4xH",
-          "name": "Google Sheets Trigger account"
-        }
-      }
+      "id": "2b77b667-27aa-4833-a9b5-49c0f2cd2825",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "jsCode": "const datos = [\n  {\n    nombre: \"Fernando Saenz\",\n    email: \"fernando@example.com\",\n    empresa: \"TechNova\",\n    cargo: \"Director Comercial\"\n  },\n  {\n    nombre: \"Laura Garcia\",\n    email: \"laura@example.com\",\n    empresa: \"InnovaSoft\",\n    cargo: \"Marketing Manager\"\n  },\n  {\n    nombre: \"Carlos Ruiz\",\n    email: \"carlos@example.com\",\n    empresa: \"DataCloud\",\n    cargo: \"Analista\"\n  },\n  {\n    nombre: \"Marta Lopez\",\n    email: \"marta@example.com\",\n    empresa: \"WebSolutions\",\n    cargo: \"Desarrolladora\"\n  },\n  {\n    nombre: \"Javier Martin\",\n    email: \"javier@example.com\",\n    empresa: \"AI Systems\",\n    cargo: \"Consultor\"\n  }\n];\n\nreturn datos.map(item => ({ json: item }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1520,
+        -368
+      ],
+      "id": "b94ae594-ec95-4c38-83bb-38246ef43a31",
+      "name": "Code in JavaScript4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2a6667d6-1cbc-421c-a012-53bb93197042",
+              "name": "nombre",
+              "value": "={{ $json.nombre }}",
+              "type": "string"
+            },
+            {
+              "id": "a587a2ac-07e2-4549-a14f-a09bbeade641",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "dd63f200-a1cc-424f-b94e-c396c4089fc7",
+              "name": "tipo",
+              "value": "contacto",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1744,
+        -448
+      ],
+      "id": "35018ec7-4c50-43d2-98b6-0ddc8974afc1",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "75f00c60-7196-4921-a3bc-b504cf323bf1",
+              "name": "empresa",
+              "value": "={{ $json.empresa }}",
+              "type": "string"
+            },
+            {
+              "id": "30107e73-2990-4c51-ade3-a5a08851ee77",
+              "name": "cargo",
+              "value": "={{ $json.cargo }}",
+              "type": "string"
+            },
+            {
+              "id": "b2879e86-45ae-412d-8e3d-9c6922fa9902",
+              "name": "tipo",
+              "value": "empresa",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1744,
+        -272
+      ],
+      "id": "26e6b76a-109f-4e24-87cf-201f404b81c0",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        2080,
+        -352
+      ],
+      "id": "5f00c3c8-78b2-468d-829e-ee0003d6e828",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me",
+      "typeVersion": 1,
+      "position": [
+        2528,
+        48
+      ],
+      "id": "c7943aa0-e402-4f20-8d5d-f2a2d6ff4822",
+      "placeholder": true
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "empresa",
+        "include": "selectedOtherFields",
+        "fieldsToInclude": "cargo, tipo",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2240,
+        -240
+      ],
+      "id": "ae47baac-b3c2-4c35-b554-8b9d8b6781af",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2528,
+        -464
+      ],
+      "id": "b8e2bb0c-15c4-43fa-a016-bdd7097d039c",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "email",
+        "include": "selectedOtherFields",
+        "fieldsToInclude": "nombre, tipo",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2240,
+        -448
+      ],
+      "id": "48572e5e-6287-4a41-a4c0-270c07bff07a",
+      "name": "Split Out1"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2496,
+        -240
+      ],
+      "id": "29e20d58-1450-477e-87f9-1f24319a2ac5",
+      "name": "Aggregate1"
     }
   ],
   "connections": {
-    "Webhook": {
+    "When clicking ‘Execute workflow’": {
       "main": [
         [
           {
-            "node": "Respond to Webhook",
+            "node": "Code in JavaScript4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Filter1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Filter2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        []
+      ]
+    },
+    "Filter1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter2": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Remove Duplicates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "Summarize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize": {
+      "main": [
+        []
+      ]
+    },
+    "Code in JavaScript3": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Operation, do nothing": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript4": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        []
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Aggregate1",
             "type": "main",
             "index": 0
           }
@@ -120,14 +638,20 @@
   "staticData": {
     "node:Schedule Trigger": {
       "recurrenceRules": []
+    },
+    "node:Google Sheets Trigger": {
+      "documentId": "1Uc9QXVcqEHFvSzU9qkZbOhezX5I3dUs6jhFE4psCpS0",
+      "sheetId": 0,
+      "lastRevision": 26,
+      "lastRevisionLink": "https://docs.google.com/spreadsheets/export?id=1Uc9QXVcqEHFvSzU9qkZbOhezX5I3dUs6jhFE4psCpS0&revision=26&exportFormat=xlsx"
     }
   },
   "meta": {
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "2da76794-1cb1-461e-b1c4-7cf491c1ec6b",
-  "activeVersionId": null,
+  "versionId": "90a5db25-a89a-477e-8a6c-411573fe02e8",
+  "activeVersionId": "38babcd0-f6c4-4fa9-9b43-ff9d0b7906cb",
   "triggerCount": 1,
   "shared": [
     {
@@ -138,6 +662,114 @@
       "projectId": "MmvYKa71ccIMyArc"
     }
   ],
-  "activeVersion": null,
+  "activeVersion": {
+    "updatedAt": "2026-06-18T10:46:38.000Z",
+    "createdAt": "2026-06-18T10:46:36.333Z",
+    "versionId": "38babcd0-f6c4-4fa9-9b43-ff9d0b7906cb",
+    "workflowId": "pGu9cUPgRzovBElC",
+    "nodes": [
+      {
+        "parameters": {
+          "respondWith": "json",
+          "responseBody": "={{ {\n  id_pago: $json.body.id_pago,\n  valor: true\n} }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.5,
+        "position": [
+          368,
+          0
+        ],
+        "id": "deca5ca1-71ab-4441-bb13-02ca2e869ab8",
+        "name": "Respond to Webhook"
+      },
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "4c826780-fd4a-4ddc-9fe9-5df52541613e",
+          "authentication": "basicAuth",
+          "responseMode": "responseNode",
+          "options": {
+            "responseHeaders": {
+              "entries": [
+                {
+                  "name": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          }
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          0,
+          0
+        ],
+        "id": "d389878e-5873-4ad6-aff0-e2591efc260a",
+        "name": "Webhook",
+        "webhookId": "4c826780-fd4a-4ddc-9fe9-5df52541613e",
+        "credentials": {
+          "httpBasicAuth": {
+            "id": "iL60rLnY0cytnunb",
+            "name": "Unnamed credential"
+          }
+        },
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "documentId": {
+            "__rl": true,
+            "value": "1Uc9QXVcqEHFvSzU9qkZbOhezX5I3dUs6jhFE4psCpS0",
+            "mode": "list",
+            "cachedResultName": "preuba trigger",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Uc9QXVcqEHFvSzU9qkZbOhezX5I3dUs6jhFE4psCpS0/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": "gid=0",
+            "mode": "list",
+            "cachedResultName": "Hoja 1",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Uc9QXVcqEHFvSzU9qkZbOhezX5I3dUs6jhFE4psCpS0/edit#gid=0"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheetsTrigger",
+        "typeVersion": 1,
+        "position": [
+          416,
+          -208
+        ],
+        "id": "b8dd858a-0215-4665-a223-582ecdddc1a9",
+        "name": "Google Sheets Trigger",
+        "alwaysOutputData": true,
+        "credentials": {
+          "googleSheetsTriggerOAuth2Api": {
+            "id": "UymkWAyGSZNpp4xH",
+            "name": "Google Sheets Trigger account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "Respond to Webhook",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "nodeGroups": [],
+    "authors": "Fernando  Saenz",
+    "name": "Version 38babcd0",
+    "description": "",
+    "autosaved": true
+  },
   "tags": []
 }
