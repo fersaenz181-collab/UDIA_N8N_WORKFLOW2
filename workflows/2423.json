@@ -1,0 +1,650 @@
+{
+  "updatedAt": "2026-06-19T10:00:04.977Z",
+  "createdAt": "2026-06-19T08:59:32.132Z",
+  "id": "6oR59472rDaSUfgs",
+  "name": "2.4.2.3",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -848,
+        -16
+      ],
+      "id": "69cda918-5b23-4328-b3a5-cb9fac67c80f",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      nombre: \"Portátil\",\n      stock: 12,\n      precio: 1200\n    }\n  },\n  {\n    json: {\n      nombre: \"Monitor\",\n      stock: 3,\n      precio: 250\n    }\n  },\n  {\n    json: {\n      nombre: \"Teclado\",\n      stock: 8,\n      precio: 45\n    }\n  },\n  {\n    json: {\n      nombre: \"Ratón\",\n      stock: 2,\n      precio: 25\n    }\n  },\n  {\n    json: {\n      nombre: \"Impresora\",\n      stock: 1,\n      precio: 180\n    }\n  },\n  {\n    json: {\n      nombre: \"Disco SSD\",\n      stock: 10,\n      precio: 90\n    }\n  },\n  {\n    json: {\n      nombre: \"Webcam\",\n      stock: 4,\n      precio: 60\n    }\n  },\n  {\n    json: {\n      nombre: \"Auriculares\",\n      stock: 7,\n      precio: 80\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "7f5f65e2-b732-4484-9cad-43356fbb83ae",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "3a8bcdbb-a4a7-432d-a1ac-071d4f984bd5",
+              "leftValue": "={{ $json.stock }}",
+              "rightValue": 5,
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        416,
+        0
+      ],
+      "id": "64e253d1-6d64-4bed-aae3-8fec53ee3710",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "400079e8-0545-449f-8c1f-53ed822fb738",
+              "name": "nombre",
+              "value": "={{ $json.nombre }}",
+              "type": "string"
+            },
+            {
+              "id": "cc0030b8-3542-46ae-89b3-f75d562c53c4",
+              "name": "stock",
+              "value": "={{ $json.stock }}",
+              "type": "number"
+            },
+            {
+              "id": "7fd0950f-2717-401d-b804-c80e08b6678a",
+              "name": "precio",
+              "value": "={{ $json.precio }}",
+              "type": "number"
+            },
+            {
+              "id": "65b55c7b-02b7-4f7b-a9e0-5d749a3e9fb7",
+              "name": "alerta",
+              "value": "reposicion urgente",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        624,
+        -96
+      ],
+      "id": "ea1a174a-6c72-475f-a46f-6fc2e778661e",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "73a9ce0e-a7a3-4546-818c-b6b5264c5959",
+              "name": "importe",
+              "value": 251,
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -384,
+        -240
+      ],
+      "id": "cb0a9d80-895a-4c0e-84de-8d147dd5dc6e",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "32b724dc-f59c-4992-a7ce-bddc98ae4e59",
+              "leftValue": "={{ $json.importe.toNumber() }}",
+              "rightValue": 100,
+              "operator": {
+                "type": "number",
+                "operation": "lte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -176,
+        -240
+      ],
+      "id": "41e5451b-517c-4f9b-8235-ad9e8b2577f3",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  { json: { usuario: \"Ana\", plan: \"free\" } },\n  { json: { usuario: \"Carlos\", plan: \"basic\" } },\n  { json: { usuario: \"Lucia\", plan: \"pro\" } },\n  { json: { usuario: \"Pedro\", plan: \"free\" } },\n  { json: { usuario: \"Marta\", plan: \"basic\" } },\n  { json: { usuario: \"Javier\", plan: \"pro\" } },\n  { json: { usuario: \"Sofia\", plan: \"free\" } },\n  { json: { usuario: \"Diego\", plan: \"basic\" } },\n  { json: { usuario: \"Elena\", plan: \"pro\" } },\n  { json: { usuario: \"Pablo\", plan: \"free\" } },\n  { json: { usuario: \"Pedro\", plan: \"no encontrado\" } }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -656,
+        32
+      ],
+      "id": "9846fe20-0664-4659-b390-70259e46052f",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.plan }}",
+                    "rightValue": "free",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "d46167af-a689-4f06-ae35-c0f2e73717fe"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "free"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "60b12fc8-a564-4bf8-a323-184f1232baf4",
+                    "leftValue": "={{ $json.plan }}",
+                    "rightValue": "basic",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "basic"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "388353b3-c86e-4f51-9142-150ee94cd062",
+                    "leftValue": "={{ $json.plan }}",
+                    "rightValue": "pro",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "pro"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -400,
+        16
+      ],
+      "id": "d5af1e91-d3b3-4330-9aa1-4d112965cfc1",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "632e6420-d39b-41db-a08e-b5359fa54621",
+              "name": "mensaje free",
+              "value": "=Hola {{ $json.usuario }}, para acceder a más ventajas mejora al plan pro",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -192,
+        -96
+      ],
+      "id": "8ee49695-6ae6-472d-829c-2b7a278cd3fc",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "891aca4a-31f7-4b2c-8cbc-e43a33000d98",
+              "name": "mensaje basic",
+              "value": "=Hola {{ $json.usuario }}, para más ventajas aumenta a tu plan pro.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -160,
+        16
+      ],
+      "id": "bc72609a-06a1-4489-b769-240926797cfe",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ea0adb63-48dd-4815-986d-9befc31988fd",
+              "name": "mensaje pro",
+              "value": "=Enhorabuena {{ $json.usuario }} por tu plan pro ya puedes disfrutar de todas la ventajas",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -176,
+        144
+      ],
+      "id": "78c07365-870c-42f3-a1aa-caa14f47c119",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bceb3a01-68bd-4974-aba5-53a86bd33040",
+              "name": "mensaje error",
+              "value": "=Hola {{ $json.usuario }}, parece que hay un problema con tu suscripcion, compruebe si sigue suscrito",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -176,
+        272
+      ],
+      "id": "6f83085c-6226-46b2-8a3b-de4318456660",
+      "name": "Edit Fields5"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      nombre: \"Empresa A\",\n      presupuesto: 3000,\n      sector: \"tecnologia\"\n    }\n  },\n  {\n    json: {\n      nombre: \"Empresa B\",\n      presupuesto: 1500,\n      sector: \"tecnologia\"\n    }\n  },\n  {\n    json: {\n      nombre: \"Empresa C\",\n      presupuesto: 3500,\n      sector: \"retail\"\n    }\n  },\n  {\n    json: {\n      nombre: \"Empresa D\",\n      presupuesto: 1000,\n      sector: \"retail\"\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -816,
+        -400
+      ],
+      "id": "fae21782-5870-4e04-a4b9-9b7b4abd9504",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "2d0c648e-c63d-4c0f-8c61-a92ffa473fb8",
+              "leftValue": "={{ $json.presupuesto }}",
+              "rightValue": 2000,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            },
+            {
+              "id": "670db648-3306-4dd5-8d20-0243054291f2",
+              "leftValue": "={{ $json.sector }}",
+              "rightValue": "tecnologia",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {
+          "ignoreCase": false
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -640,
+        -400
+      ],
+      "id": "0ddf1d6c-5688-4de7-817c-8fe87b104bb2",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "159b67d5-f629-41e2-b47d-07beb9da997b",
+              "name": "lead caliente",
+              "value": "={{ $json.nombre }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -432,
+        -408
+      ],
+      "id": "01c5c68d-8e22-47c1-a1d6-868f6e7d5e36",
+      "name": "Edit Fields6"
+    },
+    {
+      "parameters": {
+        "operation": "classify"
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        -608,
+        688
+      ],
+      "id": "ee3679df-f51f-4551-8cc7-123ab7254b55",
+      "name": "Classify text for violations",
+      "credentials": {
+        "openAiApi": {
+          "id": "N2JeEF92nbocT2XP",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "responses": {
+          "values": [
+            {
+              "role": "system",
+              "content": "Eres un experto en detectar si los mensajes que recibidmos so"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        -400,
+        688
+      ],
+      "id": "51919f0e-7ecf-4bf1-a3e1-59ca959e0591",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "N2JeEF92nbocT2XP",
+          "name": "OpenAi account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        []
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields5": {
+      "main": [
+        []
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Classify text for violations": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "efb3aef1-d9d8-4315-81e6-791dacdbbaa4",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-06-19T08:59:32.136Z",
+      "createdAt": "2026-06-19T08:59:32.136Z",
+      "role": "workflow:owner",
+      "workflowId": "6oR59472rDaSUfgs",
+      "projectId": "MmvYKa71ccIMyArc"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
