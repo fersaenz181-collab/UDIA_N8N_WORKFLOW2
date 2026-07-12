@@ -603,13 +603,17 @@
   "staticData": {
     "node:Schedule Trigger": {
       "recurrenceRules": [
-        12
+        0
+      ],
+      "recurrenceRuleSignatures": [
+        "hours:12"
       ]
     }
   },
   "meta": {
     "templateCredsSetupCompleted": true
   },
+  "nodeGroups": [],
   "pinData": {},
   "versionId": "000d03d8-affd-4e91-8bb4-97a6f4c1ebe5",
   "activeVersionId": "a269a5eb-eecd-4bdd-a592-a481b10c5622",
