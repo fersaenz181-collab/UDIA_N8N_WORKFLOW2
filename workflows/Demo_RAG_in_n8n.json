@@ -301,6 +301,7 @@
   "meta": {
     "templateId": "rag-starter-template"
   },
+  "nodeGroups": [],
   "pinData": {},
   "versionId": "cdc9cd61-7007-4d45-a5fc-13e9216ef361",
   "activeVersionId": null,
