@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-12T12:19:08.726Z",
+  "updatedAt": "2026-07-18T09:32:40.312Z",
   "createdAt": "2026-07-12T12:10:39.697Z",
   "id": "YsiqB66PuPJywN91",
   "name": "My workflow 5",
@@ -116,6 +116,24 @@
           "name": "OpenAi account"
         }
       }
+    },
+    {
+      "parameters": {
+        "attributes": {
+          "attributes": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        336,
+        336
+      ],
+      "id": "fd9094ea-d23e-4e9f-a0cb-96135ebdc39b",
+      "name": "Information Extractor"
     }
   ],
   "connections": {
@@ -197,7 +215,7 @@
   },
   "nodeGroups": [],
   "pinData": {},
-  "versionId": "3da6e523-ba2a-4aad-9d38-8af8c374dd2c",
+  "versionId": "14a34ab7-c97e-4527-a4e5-57f448c089a7",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
