@@ -1,0 +1,449 @@
+{
+  "updatedAt": "2026-07-18T10:34:25.307Z",
+  "createdAt": "2026-07-18T09:53:39.813Z",
+  "id": "pJ9JuXCwEDXuUn0Q",
+  "name": "My workflow 6",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "image",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-image-2-2026-04-21",
+          "mode": "list",
+          "cachedResultName": "GPT-IMAGE-2-2026-04-21"
+        },
+        "prompt": "= {{ $json.text }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        528,
+        0
+      ],
+      "id": "1e85dd65-9e3b-48e6-afe8-ef570ee702b9",
+      "name": "Generate an image",
+      "credentials": {
+        "openAiApi": {
+          "id": "N2JeEF92nbocT2XP",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "messages": {
+          "messageValues": [
+            {
+              "message": "Profesionaliza y mejora el pormpt que ha enviado el usuario para generar la imagen mas profesional posible, estas imagenes se usaran como base de una posterior animacion para contenido en redes sociales. responde unicamente con el prompt y que siempre empiece diciendo \" crea una imagen\"\n"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        176,
+        -48
+      ],
+      "id": "23d57eea-7553-4bb2-b33f-cc8dcfe03215",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "o4-mini",
+          "mode": "list",
+          "cachedResultName": "o4-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        128,
+        112
+      ],
+      "id": "6be2b946-64ef-4050-bfe7-328d7168ccf2",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "N2JeEF92nbocT2XP",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -16,
+        -16
+      ],
+      "id": "d31fc446-3d07-492f-987b-c36663d88cec",
+      "name": "When chat message received",
+      "webhookId": "4a8e06a4-fc41-4225-9c80-a990a9a1a657"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "input": "¿Quieres tener una escultura de tu mascota en casa?",
+        "voice": "echo",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        32,
+        288
+      ],
+      "id": "524b92a4-0989-41d2-ac48-bac5a425a810",
+      "name": "Generate audio",
+      "credentials": {
+        "openAiApi": {
+          "id": "N2JeEF92nbocT2XP",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        512,
+        272
+      ],
+      "id": "0ead998b-6ead-4263-9690-e759171b731f",
+      "name": "Transcribe a recording",
+      "credentials": {
+        "openAiApi": {
+          "id": "N2JeEF92nbocT2XP",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formTitle": "UDIA",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Nombre y apellidos"
+            },
+            {
+              "fieldLabel": "correo"
+            },
+            {
+              "fieldLabel": "Nombre mascota"
+            }
+          ]
+        },
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.6,
+      "position": [
+        -240,
+        512
+      ],
+      "id": "7e0ef0a9-b02f-4a87-9c12-4e1ded6ca37c",
+      "name": "On form submission",
+      "webhookId": "c9740464-211a-4625-9942-0fa9303678a2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a7bcbd99-7be1-4f65-9781-82b4bec0d845",
+              "name": "Cliente",
+              "value": "={{ $json['Nombre y apellidos'] }}",
+              "type": "string"
+            },
+            {
+              "id": "60e3d05d-d3c1-4592-8119-d282db10dd9f",
+              "name": "Correo",
+              "value": "={{ $json.correo }}",
+              "type": "string"
+            },
+            {
+              "id": "17d7647c-2e62-4765-9112-125734b2122a",
+              "name": "Mascota",
+              "value": "={{ $json['Nombre mascota'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -32,
+        512
+      ],
+      "id": "6a9a9edf-c3e6-4201-9f2d-ff5ac77d2118",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=Actúa como un experto en email marketing y personalización de productos.\n\nTu tarea es generar un correo electrónico personalizado para un cliente interesado en adquirir una figura personalizada de su mascota con acabado de mármol.\n\nDATOS DEL CLIENTE:\n- Nombre del cliente: {{ $json.Cliente }}\n- Correo electrónico:{{ $json.Correo }}\n- Nombre de la mascota: {{ $json.Mascota }}\n\nDebes generar:\n\n1. Un asunto atractivo y personalizado para el correo electrónico.\n2. El cuerpo del correo electrónico dirigido al cliente por su nombre y mencionando el nombre de su mascota. El objetivo es presentar de forma atractiva una figura personalizada de la cabeza de su mascota con un acabado elegante de mármol. El tono debe ser profesional, cercano y comercial, evitando sonar excesivamente agresivo o artificial.\n3. Un prompt detallado para un modelo de generación de imágenes. Como esto es una prueba y todavía no disponemos de una fotografía real de la mascota, la imagen debe representar un perro estándar. Debe mostrarse únicamente una escultura/busto de la cabeza y parte superior del cuello del perro, con acabado de mármol blanco de alta calidad. La imagen debe tener un estilo fotorrealista y premium, como una fotografía profesional de producto para una tienda online. Fondo limpio y elegante, iluminación de estudio suave, detalles realistas del mármol y composición centrada. No debe aparecer texto, logotipos ni marcas de agua.\n\nIMPORTANTE:\nDevuelve exclusivamente un objeto JSON válido.\nNo utilices Markdown.\nNo añadas ```json.\nNo añadas ningún texto antes ni después del JSON.\n\nUtiliza exactamente esta estructura:\n\n{\n  \"nombre_cliente\": \"\",\n  \"email_cliente\": \"\",\n  \"nombre_mascota\": \"\",\n  \"asunto\": \"Asunto generado\",\n  \"correo\": \"Contenido completo del correo electrónico\",\n  \"prompt_imagen\": \"Prompt completo para generar la imagen\"\n}"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        176,
+        512
+      ],
+      "id": "cab7ac65-4a6a-4456-a1ba-b7bd8c7918f1",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "N2JeEF92nbocT2XP",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Obtener el texto generado por \"Message a model\"\nconst raw = $json.output[0].content[0].text;\n\n// Limpiar posibles bloques Markdown\nconst cleaned = raw\n  .replace(/```json/g, '')\n  .replace(/```/g, '')\n  .trim();\n\n// Convertir el JSON de texto en un objeto\nconst data = JSON.parse(cleaned);\n\n// Devolver campos separados\nreturn [\n  {\n    json: {\n      nombre_cliente: data.nombre_cliente,\n      email_cliente: data.email_cliente,\n      nombre_mascota: data.nombre_mascota,\n      asunto: data.asunto,\n      correo: data.correo,\n      prompt_imagen: data.prompt_imagen\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        528,
+        512
+      ],
+      "id": "8c47135d-efcd-4979-b47d-6a8bdf95bd55",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-image-2",
+          "mode": "list",
+          "cachedResultName": "GPT-IMAGE-2"
+        },
+        "prompt": "={{ $json.prompt_imagen }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        736,
+        512
+      ],
+      "id": "24d44415-b818-47c5-97a1-5325f2595e8f",
+      "name": "Generate an image1",
+      "credentials": {
+        "openAiApi": {
+          "id": "N2JeEF92nbocT2XP",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Edit Fields').item.json.Correo }}",
+        "subject": "={{ $('Code in JavaScript').item.json.asunto }}",
+        "message": "={{ $('Code in JavaScript').item.json.correo }}",
+        "options": {
+          "appendAttribution": false,
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              {}
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        944,
+        512
+      ],
+      "id": "9d05589c-7e61-4f15-b30e-1a19ca5b085f",
+      "name": "Send a message",
+      "webhookId": "61929a72-4612-4343-b58e-d76b573d90c9",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "5l0z46fsgRK7m0J7",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Generate an image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate audio": {
+      "main": [
+        [
+          {
+            "node": "Transcribe a recording",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Generate an image1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate an image1": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "nodeGroups": [],
+  "pinData": {
+    "On form submission": [
+      {
+        "json": {
+          "Nombre y apellidos": "Fernando Saenz",
+          "correo": "fersaenz181@gmail.com",
+          "Nombre mascota": "Spursito",
+          "submittedAt": "2026-07-18T06:18:23.569-04:00",
+          "formMode": "test"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "e564ee2b-66f9-4dd6-a6cc-c0e13842c513",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-07-18T09:53:39.819Z",
+      "createdAt": "2026-07-18T09:53:39.819Z",
+      "role": "workflow:owner",
+      "workflowId": "pJ9JuXCwEDXuUn0Q",
+      "projectId": "MmvYKa71ccIMyArc"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
